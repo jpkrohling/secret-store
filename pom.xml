@@ -27,6 +27,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>undertow-filter</module>
         <module>secret-store-api</module>
         <module>secret-store</module>
     </modules>
