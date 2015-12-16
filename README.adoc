@@ -1,0 +1,83 @@
+= Secret Store
+
+Secret Store is a plugin for Java Enterprise Web Applications, handling the secure exchange of opaque tokens by Keycloak
+OAuth offline tokens.
+
+ifdef::env-github[]
+[link=https://jenkins.kroehling.de/job/secret-store/]
+image:https://jenkins.kroehling.de/buildStatus/icon?job=secret-store["Build Status", link="https://jenkins.kroehling.de/job/secret-store/"]
+endif::[]
+
+== About Secret Store
+
+The project is divided into several modules. More information about the individual modules can be found in the
+respective module's README files.
+
+* secret-store: the REST backend for generating key/secret tokens backed by Keycloak Offline tokens
+* secret-store-api: components that are intended to be consumed by other Java Enterprise Web Applications
+* feature-pack: Generates a feature pack for Wildfly. Intended to be consumed only by the integration tests
+* feature-pack-resources: Extra resources needed by the final distribution
+* integratio-tests: A set of integration tests
+
+== Basic usage
+
+Coming soon.
+
+== What's this Hawkular thing I see in the code?
+
+Hawkular is a an opensource monitoring solution sponsored by Red Hat. Originally, the Secret Store was developed to suit
+the needs of that project. It was later split, so that Secret Store could be reused outside of the Hawkular context.
+So, most of the references to Hawkular (and Hawkular Accounts) were stripped, but some facilities were kept, such as the
+embedded Cassandra and some Cassandra-related common utilities. This does *not* mean, however, that you need Hawkular
+to build, use or consume the Secret Store.
+
+== How to build Secret Store from source
+
+The API and backend can be build as a regular Maven project:
+[source,bash]
+----
+$ mvn clean install
+----
+
+To build all modules, including the integration tests, use:
+[source,bash]
+----
+$ mvn clean install -Pitest
+----
+
+== Releasing
+
+To perform a release of Secret Store, you'll need push
+permissions to the GitHub repository and execute the following:
+
+[source,bash]
+----
+mvn clean
+mvn release:prepare release:perform
+----
+
+And accept all the default values (for versions and tags).
+
+== License
+
+Secret Store is released under Apache License, Version 2.0 as described in the link:LICENSE[LICENSE] document
+
+----
+   Copyright 2015 Red Hat, Inc.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+----
+
+
+
+
