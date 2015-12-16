@@ -36,8 +36,6 @@
 
     <modules>
         <module>smoke</module>
-        <module>important</module>
-        <module>all-others</module>
     </modules>
 
     <dependencyManagement>

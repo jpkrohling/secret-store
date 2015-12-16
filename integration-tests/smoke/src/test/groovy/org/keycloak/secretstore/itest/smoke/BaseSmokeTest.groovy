@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.hawkular.accounts.itest.smoke
+package org.keycloak.secretstore.itest.smoke
 
 import groovyx.net.http.ContentType
 import groovyx.net.http.RESTClient
@@ -23,7 +23,7 @@ import org.junit.BeforeClass
 /**
  * @author Juraci Paixão Kröhling
  */
-class BaseSmokeTest {
+class BaseSmokeTest extends BaseTest {
     protected static final String testUser = 'jdoe'
     protected static final String testPasword = 'password'
 
