@@ -45,6 +45,8 @@
         </developer>
     </developers>
 
+    <url>http://www.keycloak.org/</url>
+
     <scm>
         <url>https://github.com/jpkrohling/secret-store</url>
         <connection>scm:git:https://github.com/jpkrohling/secret-store</connection>
