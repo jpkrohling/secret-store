@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.keycloak.secretstore</groupId>
         <artifactId>secret-store-parent</artifactId>
-        <version>1.0.0.Final</version>
+        <version>1.0.1.Final-SNAPSHOT</version>
     </parent>
 
     <artifactId>secret-store-feature-pack</artifactId>
@@ -64,13 +64,13 @@
         <dependency>
             <groupId>org.keycloak.secretstore</groupId>
             <artifactId>secret-store-feature-pack-resources</artifactId>
-            <version>1.0.0.Final</version>
+            <version>1.0.1.Final-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>org.keycloak.secretstore</groupId>
             <artifactId>secret-store</artifactId>
-            <version>1.0.0.Final</version>
+            <version>1.0.1.Final-SNAPSHOT</version>
             <type>war</type>
         </dependency>
 

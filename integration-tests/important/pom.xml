@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.keycloak.secretstore</groupId>
         <artifactId>secret-store-integration-tests</artifactId>
-        <version>1.0.0.Final</version>
+        <version>1.0.1.Final-SNAPSHOT</version>
     </parent>
 
     <name>Secret Store - Integration tests - Important</name>
