@@ -1,3 +1,4 @@
+<?xml version="1.0" ?>
 <!--
 
     Copyright 2015 Red Hat, Inc. and/or its affiliates
@@ -16,11 +17,9 @@
     limitations under the License.
 
 -->
-<server-provisioning xmlns="urn:wildfly:server-provisioning:1.1" extract-schemas="true"
-                     copy-module-artifacts="true">
-    <feature-packs>
-        <feature-pack groupId="org.keycloak.secretstore"
-                      artifactId="secret-store-feature-pack"
-                      version="${project.version}"/>
-    </feature-packs>
-</server-provisioning>
+<module xmlns="urn:jboss:module:1.1" name="org.keycloak.secretstore">
+
+    <resources>
+        <artifact name="${org.keycloak.secretstore:secret-store-feature-pack-resources}"/>
+    </resources>
+</module>

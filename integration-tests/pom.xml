@@ -41,28 +41,20 @@
         <module>all-others</module>
     </modules>
 
-    <properties>
-        <version.maven-surefire-plugin>2.17</version.maven-surefire-plugin>
-        <version.org.codehaus.groovy>2.3.8</version.org.codehaus.groovy>
-        <version.org.codehaus.groovy.modules.http-builder>0.7</version.org.codehaus.groovy.modules.http-builder>
-        <version.org.codehaus.gmavenplus.gmavenplus-plugin>1.2</version.org.codehaus.gmavenplus.gmavenplus-plugin>
-        <version.org.wildfly.build>1.1.1.Final</version.org.wildfly.build>
-    </properties>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.hawkular.accounts</groupId>
-                <artifactId>hawkular-accounts-feature-pack</artifactId>
-                <version>2.0.8.Final</version>
+                <groupId>org.keycloak.secretstore</groupId>
+                <artifactId>secret-store-feature-pack</artifactId>
+                <version>1.0.0.Final-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>provided</scope>
             </dependency>
 
             <dependency>
-                <groupId>org.hawkular.accounts</groupId>
-                <artifactId>hawkular-accounts-feature-pack</artifactId>
-                <version>2.0.8.Final</version>
+                <groupId>org.keycloak.secretstore</groupId>
+                <artifactId>secret-store-feature-pack</artifactId>
+                <version>1.0.0.Final-SNAPSHOT</version>
                 <type>zip</type>
                 <exclusions>
                     <exclusion>
@@ -116,34 +108,6 @@
     </dependencyManagement>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.wildfly.build</groupId>
-                    <artifactId>wildfly-server-provisioning-maven-plugin</artifactId>
-                    <version>${version.org.wildfly.build}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>xml-maven-plugin</artifactId>
-                    <version>${version.org.codehaus.mojo.xml-maven-plugin}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${version.maven-surefire-plugin}</version>
-                    <configuration>
-                        <argLine>-Xmx512m</argLine>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.gmavenplus</groupId>
-                    <artifactId>gmavenplus-plugin</artifactId>
-                    <version>${version.org.codehaus.gmavenplus.gmavenplus-plugin}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
             <!-- We want to clean the environment for the tests all the time we run -->
             <plugin>

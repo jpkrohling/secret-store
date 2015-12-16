@@ -100,8 +100,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <version.maven-clean-plugin>2.6</version.maven-clean-plugin>
+        <version.maven-surefire-plugin>2.17</version.maven-surefire-plugin>
+        <version.org.codehaus.groovy>2.3.8</version.org.codehaus.groovy>
+        <version.org.codehaus.groovy.modules.http-builder>0.7</version.org.codehaus.groovy.modules.http-builder>
+        <version.org.codehaus.gmavenplus.gmavenplus-plugin>1.2</version.org.codehaus.gmavenplus.gmavenplus-plugin>
         <version.org.keycloak>1.8.0.Alpha1</version.org.keycloak>
         <version.org.wildfly>10.0.0.CR4</version.org.wildfly>
+        <version.org.wildfly.build>1.1.1.Final</version.org.wildfly.build>
 
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <jboss.releases.repo.url>
@@ -217,16 +223,87 @@
         </dependencies>
     </dependencyManagement>
 
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${version.maven-clean-plugin}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${version.maven-surefire-plugin}</version>
+                    <configuration>
+                        <argLine>-Xmx512m</argLine>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.wildfly.build</groupId>
+                    <artifactId>wildfly-feature-pack-build-maven-plugin</artifactId>
+                    <version>${version.org.wildfly.build}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.wildfly.build</groupId>
+                    <artifactId>wildfly-server-provisioning-maven-plugin</artifactId>
+                    <version>${version.org.wildfly.build}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.gmavenplus</groupId>
+                    <artifactId>gmavenplus-plugin</artifactId>
+                    <version>${version.org.codehaus.gmavenplus.gmavenplus-plugin}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>groovy-maven-plugin</artifactId>
+                <version>2.0</version>
+                <executions>
+                    <execution>
+                        <id>set-custom-property</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>
+                                import java.util.UUID
+                                def uuidSecretStore = System.getProperty("uuid.secretstore")
+                                if (uuidSecretStore == null) {
+                                    uuidSecretStore = UUID.randomUUID().toString()
+                                    System.setProperty("uuid.secretstore", uuidSecretStore)
+                                }
+                                project.properties.setProperty("uuid.secretstore", uuidSecretStore)
+                            </source>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
     <profiles>
         <profile>
             <id>itest</id>
             <modules>
+                <module>feature-pack-resources</module>
+                <module>feature-pack</module>
                 <module>integration-tests</module>
             </modules>
         </profile>
         <profile>
             <id>release</id>
             <modules>
+                <module>feature-pack-resources</module>
+                <module>feature-pack</module>
                 <module>integration-tests</module>
             </modules>
         </profile>

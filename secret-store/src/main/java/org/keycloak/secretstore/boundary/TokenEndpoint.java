@@ -17,12 +17,12 @@
 package org.keycloak.secretstore.boundary;
 
 import org.hawkular.accounts.common.UsernamePasswordConverter;
+import org.keycloak.KeycloakPrincipal;
+import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 import org.keycloak.secretstore.api.Token;
 import org.keycloak.secretstore.api.TokenService;
 import org.keycloak.secretstore.entity.TokenCreateResponse;
 import org.keycloak.secretstore.entity.TokenErrorResponse;
-import org.keycloak.KeycloakPrincipal;
-import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 
 import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;

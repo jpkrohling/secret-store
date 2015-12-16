@@ -18,9 +18,9 @@ package org.keycloak.secretstore.api;
 
 import com.datastax.driver.core.BoundStatement;
 import org.hawkular.accounts.common.ZonedDateTimeAdapter;
-import org.keycloak.secretstore.api.internal.BoundStatements;
 import org.junit.Before;
 import org.junit.Test;
+import org.keycloak.secretstore.api.internal.BoundStatements;
 
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;

@@ -16,8 +16,6 @@
  */
 package org.hawkular.accounts.itest.smoke
 
-import groovyx.net.http.ContentType
-import groovyx.net.http.RESTClient
 import org.jboss.arquillian.junit.Arquillian
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,60 +28,9 @@ class SecretStoreITest extends BaseSmokeTest {
 
     @Test
     void createTokenBasedOnCurrentPersonaCredentials() {
-        def response = client.post(path: "/hawkular/secret-store/v1/tokens/create")
+        def response = client.post(path: "/secret-store/v1/tokens/create")
         assertEquals(200, response.status)
         assertNotNull(response.data.key)
         assertNotNull(response.data.secret)
-    }
-
-    @Test
-    void canAuthenticateWithTokenAsJdoe() {
-        def response = client.get(path: "/hawkular/accounts/personas/current")
-        assertEquals(200, response.status)
-        def jdoeId = response.data.id
-
-        response = client.post(path: "/hawkular/secret-store/v1/tokens/create")
-        assertEquals(200, response.status)
-
-        def token = response.data.key
-        def secret = response.data.secret
-        def toEncode = "${token}:${secret}"
-
-        def clientWithTokenAuth = new RESTClient(baseURI, ContentType.JSON)
-        String encodedCredentials = Base64.getEncoder().encodeToString(toEncode.getBytes("utf-8"))
-        clientWithTokenAuth.defaultRequestHeaders.Authorization = "Basic " + encodedCredentials
-
-        response = clientWithTokenAuth.get(path: "/hawkular/accounts/personas/current")
-        assertEquals("With token/secret should be recognized as jdoe", jdoeId, response.data.id)
-    }
-
-    @Test
-    void canAuthenticateWithTokenAsPersona() {
-        def response = client.get(path: "/hawkular/accounts/personas/current")
-        assertEquals(200, response.status)
-        def jdoeId = response.data.id
-
-        response = client.post(
-                path: '/hawkular/accounts/organizations',
-                body: [name: UUID.randomUUID().toString()]
-        )
-        assertEquals(200, response.status)
-        def organizationId = response.data.id
-
-        client.defaultRequestHeaders."Hawkular-Persona" = organizationId
-        response = client.post(path: "/hawkular/secret-store/v1/tokens/create")
-        assertEquals(200, response.status)
-        client.defaultRequestHeaders.remove("Hawkular-Persona")
-
-        def token = response.data.key
-        def secret = response.data.secret
-        def toEncode = "${token}:${secret}"
-
-        def clientWithTokenAuth = new RESTClient(baseURI, ContentType.JSON)
-        String encodedCredentials = Base64.getEncoder().encodeToString(toEncode.getBytes("utf-8"))
-        clientWithTokenAuth.defaultRequestHeaders.Authorization = "Basic " + encodedCredentials
-
-        response = clientWithTokenAuth.get(path: "/hawkular/accounts/personas/current")
-        assertEquals("With token/secret should be recognized as Acme, Inc", organizationId, response.data.id)
     }
 }
