@@ -14,16 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.hawkular.accounts.secretstore.api;
+package org.keycloak.secretstore.api;
 
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import org.hawkular.accounts.common.ZonedDateTimeAdapter;
-import org.hawkular.accounts.secretstore.api.internal.BoundStatements;
-import org.hawkular.accounts.secretstore.api.internal.NamedStatement;
-import org.hawkular.accounts.secretstore.api.internal.SecretStore;
+import org.keycloak.secretstore.api.internal.BoundStatements;
+import org.keycloak.secretstore.api.internal.NamedStatement;
+import org.keycloak.secretstore.api.internal.SecretStore;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;

@@ -14,40 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.hawkular.accounts.secretstore.entity;
+package org.keycloak.secretstore.control;
 
-import org.hawkular.accounts.secretstore.api.Token;
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
 
 /**
+ * Integration point with JAX-RS. Specifies that we have a JAX-RS application, on the namespace "/v1".
+ *
  * @author Juraci Paixão Kröhling
  */
-public class TokenCreateResponse {
-    private String key;
-    private String secret;
+@ApplicationPath("/v1")
+public class JaxRsActivator extends Application {
 
-    public TokenCreateResponse(Token token) {
-        this.key = token.getId().toString();
-        this.secret = token.getSecret();
-    }
-
-    public TokenCreateResponse(String key, String secret) {
-        this.key = key;
-        this.secret = secret;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public String getSecret() {
-        return secret;
-    }
-
-    public void setSecret(String secret) {
-        this.secret = secret;
-    }
 }

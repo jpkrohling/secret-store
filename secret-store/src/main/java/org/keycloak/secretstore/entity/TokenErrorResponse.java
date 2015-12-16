@@ -14,21 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.hawkular.accounts.secretstore.api.internal;
-
-import org.jboss.logging.Logger;
-import org.jboss.logging.annotations.*;
+package org.keycloak.secretstore.entity;
 
 /**
  * @author Juraci Paixão Kröhling
  */
-@MessageLogger(projectCode = "HAWKACC")
-@ValidIdRange(min = 160000, max = 169999)
-public interface MsgLogger {
-    MsgLogger LOGGER = Logger.getMessageLogger(MsgLogger.class, MsgLogger.class.getPackage().getName());
+public class TokenErrorResponse {
 
-    @LogMessage(level = Logger.Level.FATAL)
-    @Message(id = 160000, value = "Failed to initialize Cassandra's schema for Secret Store. Reason")
-    void failedToInitializeSchema(@Cause Throwable t);
+    private String error;
 
+    public TokenErrorResponse() {
+    }
+
+    public TokenErrorResponse(String error) {
+        this.error = error;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
 }

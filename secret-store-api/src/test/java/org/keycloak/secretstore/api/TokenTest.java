@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.hawkular.accounts.secretstore.api;
+package org.keycloak.secretstore.api;
 
 import com.datastax.driver.core.BoundStatement;
 import org.hawkular.accounts.common.ZonedDateTimeAdapter;
-import org.hawkular.accounts.secretstore.api.internal.BoundStatements;
+import org.keycloak.secretstore.api.internal.BoundStatements;
 import org.junit.Before;
 import org.junit.Test;
 

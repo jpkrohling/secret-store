@@ -14,27 +14,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.hawkular.accounts.secretstore.entity;
+package org.keycloak.secretstore.entity;
+
+import org.keycloak.secretstore.api.Token;
 
 /**
  * @author Juraci Paixão Kröhling
  */
-public class TokenErrorResponse {
+public class TokenCreateResponse {
+    private String key;
+    private String secret;
 
-    private String error;
-
-    public TokenErrorResponse() {
+    public TokenCreateResponse(Token token) {
+        this.key = token.getId().toString();
+        this.secret = token.getSecret();
     }
 
-    public TokenErrorResponse(String error) {
-        this.error = error;
+    public TokenCreateResponse(String key, String secret) {
+        this.key = key;
+        this.secret = secret;
     }
 
-    public String getError() {
-        return error;
+    public String getKey() {
+        return key;
     }
 
-    public void setError(String error) {
-        this.error = error;
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
     }
 }

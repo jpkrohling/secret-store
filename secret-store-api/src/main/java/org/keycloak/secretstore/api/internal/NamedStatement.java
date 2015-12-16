@@ -14,17 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.hawkular.accounts.secretstore.control;
+package org.keycloak.secretstore.api.internal;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import javax.enterprise.util.Nonbinding;
+import javax.inject.Qualifier;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Integration point with JAX-RS. Specifies that we have a JAX-RS application, on the namespace "/v1".
+ * CDI qualifier, to mark a bean as being specific to Secret Store when beans could be ambiguous.
  *
  * @author Juraci Paixão Kröhling
  */
-@ApplicationPath("/v1")
-public class JaxRsActivator extends Application {
-
+@Qualifier
+@Retention(RUNTIME)
+@Target({METHOD, FIELD, PARAMETER, TYPE})
+public @interface NamedStatement {
+    @Nonbinding BoundStatements value() default BoundStatements.CREATE;
 }

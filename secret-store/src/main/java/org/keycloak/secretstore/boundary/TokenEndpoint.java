@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.hawkular.accounts.secretstore.boundary;
+package org.keycloak.secretstore.boundary;
 
 import org.hawkular.accounts.common.UsernamePasswordConverter;
-import org.hawkular.accounts.secretstore.api.Token;
-import org.hawkular.accounts.secretstore.api.TokenService;
-import org.hawkular.accounts.secretstore.entity.TokenCreateResponse;
-import org.hawkular.accounts.secretstore.entity.TokenErrorResponse;
+import org.keycloak.secretstore.api.Token;
+import org.keycloak.secretstore.api.TokenService;
+import org.keycloak.secretstore.entity.TokenCreateResponse;
+import org.keycloak.secretstore.entity.TokenErrorResponse;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 

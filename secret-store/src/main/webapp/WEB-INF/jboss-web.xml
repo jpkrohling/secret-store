@@ -19,6 +19,6 @@
 -->
 <jboss-web xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.jboss.com/xml/ns/javaee"
            xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee http://www.jboss.org/j2ee/schema/jboss-web_5_1.xsd">
-    <context-root>/hawkular/secret-store</context-root>
+    <context-root>/secret-store</context-root>
     <security-domain>keycloak</security-domain>
 </jboss-web>

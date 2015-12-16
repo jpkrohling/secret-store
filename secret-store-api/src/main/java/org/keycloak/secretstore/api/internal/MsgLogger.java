@@ -14,22 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.hawkular.accounts.secretstore.api.internal;
+package org.keycloak.secretstore.api.internal;
 
-import javax.inject.Qualifier;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
-import static java.lang.annotation.ElementType.*;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import org.jboss.logging.Logger;
+import org.jboss.logging.annotations.*;
 
 /**
- * CDI qualifier, to mark a bean as being specific to Secret Store when beans could be ambiguous.
- *
  * @author Juraci Paixão Kröhling
  */
-@Qualifier
-@Retention(RUNTIME)
-@Target({METHOD, FIELD, PARAMETER, TYPE})
-public @interface SecretStore {
+@MessageLogger(projectCode = "HAWKACC")
+@ValidIdRange(min = 160000, max = 169999)
+public interface MsgLogger {
+    MsgLogger LOGGER = Logger.getMessageLogger(MsgLogger.class, MsgLogger.class.getPackage().getName());
+
+    @LogMessage(level = Logger.Level.FATAL)
+    @Message(id = 160000, value = "Failed to initialize Cassandra's schema for Secret Store. Reason")
+    void failedToInitializeSchema(@Cause Throwable t);
+
 }
