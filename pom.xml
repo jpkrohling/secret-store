@@ -23,7 +23,7 @@
     <name>Secret Store - Parent</name>
     <groupId>org.keycloak.secretstore</groupId>
     <artifactId>secret-store-parent</artifactId>
-    <version>1.0.4.Final-SNAPSHOT</version>
+    <version>1.0.4.Final</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -52,7 +52,7 @@
         <url>https://github.com/jpkrohling/secret-store</url>
         <connection>scm:git:https://github.com/jpkrohling/secret-store</connection>
         <developerConnection>scm:git:git@github.com:jpkrohling/secret-store.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>1.0.4.Final</tag>
     </scm>
 
     <issueManagement>
