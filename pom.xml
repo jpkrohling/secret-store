@@ -17,7 +17,8 @@
     limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <name>Secret Store - Parent</name>
@@ -112,10 +113,15 @@
         <version.maven-javadoc-plugin>2.10.3</version.maven-javadoc-plugin>
         <version.maven-source-plugin>2.4</version.maven-source-plugin>
 
+        <version.com.datastax.cassandra>2.2.0-rc3</version.com.datastax.cassandra>
+        <version.junit>4.12</version.junit>
+        <version.org.apache.cassandra>2.2.2</version.org.apache.cassandra>
         <version.org.codehaus.groovy>2.3.8</version.org.codehaus.groovy>
         <version.org.codehaus.groovy.modules.http-builder>0.7</version.org.codehaus.groovy.modules.http-builder>
         <version.org.codehaus.gmavenplus.gmavenplus-plugin>1.2</version.org.codehaus.gmavenplus.gmavenplus-plugin>
+        <version.org.jboss.spec.javax.json>1.0.0.Final</version.org.jboss.spec.javax.json>
         <version.org.keycloak>1.8.0.Alpha1</version.org.keycloak>
+        <version.org.mockito>1.10.19</version.org.mockito>
         <version.org.wildfly>10.0.0.CR4</version.org.wildfly>
         <version.org.wildfly.build>1.1.1.Final</version.org.wildfly.build>
 
@@ -130,6 +136,7 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- Wildfly-related components -->
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
                 <artifactId>wildfly-javaee7</artifactId>
@@ -138,6 +145,7 @@
                 <scope>import</scope>
             </dependency>
 
+            <!-- Java EE related specs -->
             <dependency>
                 <groupId>org.wildfly</groupId>
                 <artifactId>wildfly-spec-api</artifactId>
@@ -145,6 +153,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.jboss.spec.javax.json</groupId>
+                <artifactId>jboss-json-api_1.0_spec</artifactId>
+                <version>${version.org.jboss.spec.javax.json}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.keycloak</groupId>
                 <artifactId>keycloak-core</artifactId>
@@ -155,79 +170,28 @@
                 <artifactId>keycloak-adapter-core</artifactId>
                 <version>${version.org.keycloak}</version>
             </dependency>
-            <dependency>
-                <groupId>org.keycloak</groupId>
-                <artifactId>keycloak-war-dist-all</artifactId>
-                <version>${version.org.keycloak}</version>
-                <type>zip</type>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.keycloak</groupId>
-                        <artifactId>keycloak-tomcat7-adapter-dist</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.keycloak</groupId>
-                        <artifactId>keycloak-example-themes-dist</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.keycloak</groupId>
-                        <artifactId>keycloak-eap6-adapter-dist</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.keycloak</groupId>
-                        <artifactId>keycloak-wildfly-adapter-dist</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.keycloak</groupId>
-                        <artifactId>keycloak-as7-adapter-dist</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.keycloak</groupId>
-                <artifactId>keycloak-wildfly-adapter-dist</artifactId>
-                <version>${version.org.keycloak}</version>
-                <type>zip</type>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.keycloak</groupId>
-                        <artifactId>keycloak-undertow-adapter</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>org.jboss.spec.javax.websocket</groupId>
-                <artifactId>jboss-websocket-api_1.1_spec</artifactId>
-                <version>1.1.1.Final</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.jboss.spec.javax.json</groupId>
-                <artifactId>jboss-json-api_1.0_spec</artifactId>
-                <version>1.0.0.Final</version>
-            </dependency>
 
             <dependency>
                 <groupId>com.datastax.cassandra</groupId>
                 <artifactId>cassandra-driver-core</artifactId>
-                <version>2.2.0-rc3</version>
+                <version>${version.com.datastax.cassandra}</version>
             </dependency>
 
+            <!-- Testing dependencies -->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.12</version>
+                <version>${version.junit}</version>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
-                <version>1.10.19</version>
+                <version>${version.org.mockito}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.cassandra</groupId>
                 <artifactId>cassandra-all</artifactId>
-                <version>2.2.2</version>
+                <version>${version.org.apache.cassandra}</version>
             </dependency>
 
         </dependencies>
@@ -286,34 +250,6 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <additionalparam>${javadoc.doclint}</additionalparam>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>${version.maven-release-plugin}</version>
                 <configuration>
@@ -337,6 +273,7 @@
                         <configuration>
                             <source>
                                 import java.util.UUID
+
                                 def uuidSecretStore = System.getProperty("uuid.secretstore")
                                 if (uuidSecretStore == null) {
                                     uuidSecretStore = UUID.randomUUID().toString()
@@ -367,6 +304,36 @@
                 <module>feature-pack</module>
                 <module>integration-tests</module>
             </modules>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <configuration>
+                            <additionalparam>${javadoc.doclint}</additionalparam>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>

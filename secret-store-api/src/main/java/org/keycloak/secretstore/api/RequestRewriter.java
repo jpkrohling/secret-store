@@ -45,10 +45,12 @@ public class RequestRewriter {
 
     private final MsgLogger logger = MsgLogger.LOGGER;
 
-    @Inject @RealmName
+    @Inject
+    @RealmName
     String realmName;
 
-    @Inject @AuthServerUrl
+    @Inject
+    @AuthServerUrl
     String authServerUrl;
 
     @Inject
@@ -157,7 +159,7 @@ public class RequestRewriter {
             return null;
         }
 
-        if (null == bearerToken|| bearerToken.isEmpty()) {
+        if (null == bearerToken || bearerToken.isEmpty()) {
             logger.invalidBearerTokenFromServer();
             return null;
         }

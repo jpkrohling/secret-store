@@ -43,12 +43,11 @@ import java.io.Reader;
  */
 @ApplicationScoped
 public class ApplicationResources {
-    private CommandLine cmd;
-    private Configuration configuration;
-
     @Inject
     @Parameters
     String[] parameters;
+    private CommandLine cmd;
+    private Configuration configuration;
 
     @PostConstruct
     public void prepareCommandLineOptions() {
@@ -111,32 +110,42 @@ public class ApplicationResources {
 
     }
 
-    @Alternative @Produces @RealmName
+    @Alternative
+    @Produces
+    @RealmName
     public String getRealmName() {
         return configuration.getRealmName();
     }
 
-    @Alternative @Produces @RealmResourceName
+    @Alternative
+    @Produces
+    @RealmResourceName
     public String getRealmResourceName() {
         return configuration.getResourceName();
     }
 
-    @Alternative @Produces @RealmResourceSecret
+    @Alternative
+    @Produces
+    @RealmResourceSecret
     public String getRealmResourceSecret() {
         return configuration.getResourceSecret();
     }
 
-    @Alternative @Produces @AuthServerUrl
+    @Alternative
+    @Produces
+    @AuthServerUrl
     public String getAuthServerUrl() {
         return configuration.getAuthServerUrl();
     }
 
-    @Produces @Port
+    @Produces
+    @Port
     public int getPort() {
         return configuration.getPort();
     }
 
-    @Produces @BindTo
+    @Produces
+    @BindTo
     public String getBindTo() {
         return configuration.getBind();
     }

@@ -27,11 +27,13 @@ public class ServletContextEnhancer implements ServletContextListener {
     @Inject
     ApplicationResources applicationResources;
 
-    @Override public void contextInitialized(ServletContextEvent servletContextEvent) {
+    @Override
+    public void contextInitialized(ServletContextEvent servletContextEvent) {
         applicationResources.setServletContext(servletContextEvent.getServletContext());
     }
 
-    @Override public void contextDestroyed(ServletContextEvent servletContextEvent) {
+    @Override
+    public void contextDestroyed(ServletContextEvent servletContextEvent) {
     }
 
 }

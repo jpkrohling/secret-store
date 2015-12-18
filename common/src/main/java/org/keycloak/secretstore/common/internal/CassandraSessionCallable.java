@@ -16,35 +16,32 @@
  */
 package org.keycloak.secretstore.common.internal;
 
-import java.util.concurrent.Callable;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-
-import org.keycloak.secretstore.common.CassandraNodes;
-import org.keycloak.secretstore.common.CassandraPort;
-
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.ProtocolVersion;
 import com.datastax.driver.core.Session;
+import org.keycloak.secretstore.common.CassandraNodes;
+import org.keycloak.secretstore.common.CassandraPort;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import java.util.concurrent.Callable;
 
 /**
  * @author Juraci Paixão Kröhling
  */
 @ApplicationScoped
 public class CassandraSessionCallable implements Callable<Session> {
-    MsgLogger logger = MsgLogger.LOGGER;
-
     private static final String CASSANDRA_RETRY_ATTEMPTS = "hawkular-accounts.cassandra-retry-attempts";
     private static final String CASSANDRA_RETRY_INTERVAL = "hawkular-accounts.cassandra-retry-interval";
-
     private static int attempts = Integer.parseInt(System.getProperty(CASSANDRA_RETRY_ATTEMPTS, "15"));
     private static int interval = Integer.parseInt(System.getProperty(CASSANDRA_RETRY_INTERVAL, "4000"));
-
-    @Inject @CassandraPort
+    MsgLogger logger = MsgLogger.LOGGER;
+    @Inject
+    @CassandraPort
     String cqlPort;
 
-    @Inject @CassandraNodes
+    @Inject
+    @CassandraNodes
     String nodes;
 
     @Override

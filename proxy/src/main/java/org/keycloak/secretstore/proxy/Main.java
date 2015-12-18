@@ -21,7 +21,6 @@ import io.undertow.Undertow;
 import org.jboss.weld.environment.se.events.ContainerInitialized;
 import org.keycloak.secretstore.proxy.internal.BindTo;
 import org.keycloak.secretstore.proxy.internal.Port;
-import org.keycloak.secretstore.undertow.filter.AgentHttpHandler;
 
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
@@ -35,10 +34,12 @@ public class Main {
     @Inject
     TokenReplacingProxyHandler handler;
 
-    @Inject @Port
+    @Inject
+    @Port
     int port;
 
-    @Inject @BindTo
+    @Inject
+    @BindTo
     String bind;
 
     void start(@Observes ContainerInitialized ignored) {

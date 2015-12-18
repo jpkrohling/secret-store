@@ -16,12 +16,11 @@
  */
 package org.keycloak.secretstore.common;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.sql.Timestamp;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Date;
-
-import javax.enterprise.context.ApplicationScoped;
 
 /**
  * JPA adapter for converting {@link ZonedDateTime} into {@link Timestamp}.

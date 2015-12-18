@@ -16,14 +16,13 @@
  */
 package org.keycloak.secretstore.common;
 
-import java.io.StringReader;
-import java.net.URLEncoder;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import java.io.StringReader;
+import java.net.URLEncoder;
 
 /**
  * Converts an username/password into a token.
@@ -32,14 +31,14 @@ import javax.json.JsonReader;
  */
 @ApplicationScoped
 public class UsernamePasswordConverter {
-    @Inject @AuthServerUrl
-    private String baseUrl;
-
-    @Inject @RealmName
-    private String realm;
-
     @Inject
     AuthServerRequestExecutor executor;
+    @Inject
+    @AuthServerUrl
+    private String baseUrl;
+    @Inject
+    @RealmName
+    private String realm;
 
     public String getAccessToken(String username, String password) throws Exception {
         JsonObject response = getResponse(username, password);

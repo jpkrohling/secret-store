@@ -16,6 +16,8 @@
  */
 package org.keycloak.secretstore.common;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,18 +27,17 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.Base64;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-
 /**
  * @author Juraci Paixão Kröhling
  */
 @ApplicationScoped
 public class AuthServerRequestExecutor {
-    @Inject @RealmResourceName
+    @Inject
+    @RealmResourceName
     private String clientId;
 
-    @Inject @RealmResourceSecret
+    @Inject
+    @RealmResourceSecret
     private String secret;
 
     public String execute(String url, String method) throws Exception {
@@ -53,13 +54,14 @@ public class AuthServerRequestExecutor {
 
     /**
      * Performs an HTTP call to the Keycloak server, returning the server's response as String.
-     * @param url              the full URL to call, including protocol, host, port and path.
-     * @param urlParameters    the HTTP Query Parameters properly encoded and without the leading "?".
-     * @param clientId         the OAuth client ID.
-     * @param secret           the OAuth client secret.
-     * @param method           the HTTP method to use (GET or POST). If anything other than POST is sent, GET is used.
-     * @return                 a String with the response from the Keycloak server, in both success and error scenarios
-     * @throws Exception       if communication problems with the Keycloak server occurs.
+     *
+     * @param url           the full URL to call, including protocol, host, port and path.
+     * @param urlParameters the HTTP Query Parameters properly encoded and without the leading "?".
+     * @param clientId      the OAuth client ID.
+     * @param secret        the OAuth client secret.
+     * @param method        the HTTP method to use (GET or POST). If anything other than POST is sent, GET is used.
+     * @return a String with the response from the Keycloak server, in both success and error scenarios
+     * @throws Exception if communication problems with the Keycloak server occurs.
      */
     public String execute(String url, String urlParameters, String clientId, String secret, String method) throws
             Exception {
@@ -69,7 +71,7 @@ public class AuthServerRequestExecutor {
         String authorizationHeader = "Basic " + Base64.getEncoder().encodeToString(credentials.getBytes());
 
         if ("POST".equalsIgnoreCase(method)) {
-            connection =  (HttpURLConnection) new URL(url).openConnection();
+            connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setRequestMethod(method);
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             connection.setRequestProperty("Authorization", authorizationHeader);
@@ -82,7 +84,7 @@ public class AuthServerRequestExecutor {
                 }
             }
         } else {
-            connection =  (HttpURLConnection) new URL(url + "?" + urlParameters).openConnection();
+            connection = (HttpURLConnection) new URL(url + "?" + urlParameters).openConnection();
             connection.setRequestMethod(method);
             connection.setRequestProperty("Authorization", authorizationHeader);
         }
@@ -108,7 +110,7 @@ public class AuthServerRequestExecutor {
         }
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"))) {
-            for (String line; (line = reader.readLine()) != null;) {
+            for (String line; (line = reader.readLine()) != null; ) {
                 response.append(line);
             }
         }

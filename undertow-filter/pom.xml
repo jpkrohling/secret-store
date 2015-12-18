@@ -17,66 +17,67 @@
     limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.keycloak.secretstore</groupId>
-    <artifactId>secret-store-parent</artifactId>
-    <version>1.0.5.Final-SNAPSHOT</version>
-  </parent>
+    <parent>
+        <groupId>org.keycloak.secretstore</groupId>
+        <artifactId>secret-store-parent</artifactId>
+        <version>1.0.5.Final-SNAPSHOT</version>
+    </parent>
 
-  <name>Secret Store - Undertow Filter</name>
-  <artifactId>secret-store-undertow-filter</artifactId>
-  <packaging>jar</packaging>
+    <name>Secret Store - Undertow Filter</name>
+    <artifactId>secret-store-undertow-filter</artifactId>
+    <packaging>jar</packaging>
 
-  <description>
-    Undertow Filter: intercepts all requests and replaces a key/secret with an appropriate Keycloak token.
-  </description>
+    <description>
+        Undertow Filter: intercepts all requests and replaces a key/secret with an appropriate Keycloak token.
+    </description>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.keycloak.secretstore</groupId>
-      <artifactId>secret-store-api</artifactId>
-      <version>1.0.5.Final-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.keycloak.secretstore</groupId>
-      <artifactId>secret-store-common</artifactId>
-      <version>1.0.5.Final-SNAPSHOT</version>
-    </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.keycloak.secretstore</groupId>
+            <artifactId>secret-store-api</artifactId>
+            <version>1.0.5.Final-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.keycloak.secretstore</groupId>
+            <artifactId>secret-store-common</artifactId>
+            <version>1.0.5.Final-SNAPSHOT</version>
+        </dependency>
 
-    <dependency>
-      <groupId>io.undertow</groupId>
-      <artifactId>undertow-servlet</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.spec.javax.json</groupId>
-      <artifactId>jboss-json-api_1.0_spec</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.enterprise</groupId>
-      <artifactId>cdi-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
+        <dependency>
+            <groupId>io.undertow</groupId>
+            <artifactId>undertow-servlet</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.json</groupId>
+            <artifactId>jboss-json-api_1.0_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-    <dependency>
-      <groupId>org.jboss.logging</groupId>
-      <artifactId>jboss-logging</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.logging</groupId>
-      <artifactId>jboss-logging-annotations</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.logging</groupId>
-      <artifactId>jboss-logging-processor</artifactId>
-      <scope>provided</scope>
-    </dependency>
-  </dependencies>
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging-annotations</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging-processor</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
 </project>
 

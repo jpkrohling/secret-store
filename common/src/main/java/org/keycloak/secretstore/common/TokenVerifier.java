@@ -16,24 +16,23 @@
  */
 package org.keycloak.secretstore.common;
 
-import java.net.URLEncoder;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.net.URLEncoder;
 
 /**
  * @author Juraci Paixão Kröhling
  */
 @ApplicationScoped
 public class TokenVerifier {
-    @Inject @AuthServerUrl
-    private String baseUrl;
-
-    @Inject @RealmName
-    private String realm;
-
     @Inject
     AuthServerRequestExecutor executor;
+    @Inject
+    @AuthServerUrl
+    private String baseUrl;
+    @Inject
+    @RealmName
+    private String realm;
 
     public String verify(String token) throws Exception {
         String tokenUrl = baseUrl

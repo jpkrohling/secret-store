@@ -16,10 +16,10 @@
  */
 package org.keycloak.secretstore.undertow.filter;
 
-import javax.servlet.ServletContext;
-
 import io.undertow.servlet.ServletExtension;
 import io.undertow.servlet.api.DeploymentInfo;
+
+import javax.servlet.ServletContext;
 
 /**
  * @author Juraci Paixão Kröhling

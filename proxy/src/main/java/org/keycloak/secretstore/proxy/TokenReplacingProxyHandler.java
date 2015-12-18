@@ -39,13 +39,12 @@ import java.util.concurrent.TimeUnit;
  * @author Juraci Paixão Kröhling
  */
 public class TokenReplacingProxyHandler implements ProxyClient {
-    @Inject
-    RequestRewriter requestRewriter;
-
+    private static final ProxyClient.ProxyTarget TARGET = new ProxyClient.ProxyTarget() {
+    };
     private final AttachmentKey<ClientConnection> clientAttachmentKey = AttachmentKey.create(ClientConnection.class);
     private final UndertowClient client;
-
-    private static final ProxyClient.ProxyTarget TARGET = new ProxyClient.ProxyTarget() {};
+    @Inject
+    RequestRewriter requestRewriter;
 
     public TokenReplacingProxyHandler() {
         client = UndertowClient.getInstance();

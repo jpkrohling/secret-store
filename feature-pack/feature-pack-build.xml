@@ -30,8 +30,10 @@
     </config>
 
     <copy-artifacts>
-        <copy-artifact artifact="org.keycloak.secretstore:secret-store" to-location="standalone/deployments/secret-store.war"/>
-        <copy-artifact artifact="org.hawkular.commons:hawkular-commons-embedded-cassandra-ear" to-location="standalone/deployments/hawkular-commons-embedded-cassandra-ear.ear" />
+        <copy-artifact artifact="org.keycloak.secretstore:secret-store"
+                       to-location="standalone/deployments/secret-store.war"/>
+        <copy-artifact artifact="org.hawkular.commons:hawkular-commons-embedded-cassandra-ear"
+                       to-location="standalone/deployments/hawkular-commons-embedded-cassandra-ear.ear"/>
     </copy-artifacts>
 
 </build>

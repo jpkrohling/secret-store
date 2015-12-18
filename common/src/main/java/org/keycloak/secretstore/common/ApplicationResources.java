@@ -16,14 +16,13 @@
  */
 package org.keycloak.secretstore.common;
 
-import java.io.StringReader;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.servlet.ServletContext;
+import java.io.StringReader;
 
 /**
  * @author Juraci Paixão Kröhling
@@ -47,7 +46,8 @@ public class ApplicationResources {
         this.servletContext = servletContext;
     }
 
-    @Produces @CassandraNodes
+    @Produces
+    @CassandraNodes
     public String getCassandraNodes() {
         if (null == cassandraNodes) {
             cassandraNodes = System.getenv("CASSANDRA_NODES");
@@ -58,7 +58,8 @@ public class ApplicationResources {
         return cassandraNodes;
     }
 
-    @Produces @CassandraPort
+    @Produces
+    @CassandraPort
     public String getCassandraPort() {
         if (null == cassandraPort) {
             cassandraPort = System.getenv("CASSANDRA_CQL_PORT");
@@ -69,7 +70,8 @@ public class ApplicationResources {
         return cassandraPort;
     }
 
-    @Produces @RealmConfiguration
+    @Produces
+    @RealmConfiguration
     public String getRealmConfiguration() {
         if (null == realmConfiguration) {
             realmConfiguration = servletContext.getInitParameter(REALM_CONFIG_KEY);
@@ -77,7 +79,8 @@ public class ApplicationResources {
         return realmConfiguration;
     }
 
-    @Produces @RealmName
+    @Produces
+    @RealmName
     public String getRealmName() {
         if (!realmConfigurationParsed) {
             parseRealmConfiguration();
@@ -85,7 +88,8 @@ public class ApplicationResources {
         return realmName;
     }
 
-    @Produces @AuthServerUrl
+    @Produces
+    @AuthServerUrl
     public String getServerUrl() {
         if (!realmConfigurationParsed) {
             parseRealmConfiguration();
@@ -93,7 +97,8 @@ public class ApplicationResources {
         return serverUrl;
     }
 
-    @Produces @RealmResourceName
+    @Produces
+    @RealmResourceName
     public String getResourceName() {
         if (!realmConfigurationParsed) {
             parseRealmConfiguration();
@@ -101,7 +106,8 @@ public class ApplicationResources {
         return resourceName;
     }
 
-    @Produces @RealmResourceSecret
+    @Produces
+    @RealmResourceSecret
     public String getResourceNameSecret() {
         if (!realmConfigurationParsed) {
             parseRealmConfiguration();
@@ -133,7 +139,7 @@ public class ApplicationResources {
             if (authContextPath.toLowerCase().startsWith("http")) {
                 serverUrl = authContextPath;
             } else {
-                serverUrl = "http://" + host + ":" + (defaultPort+portOffset) + authContextPath;
+                serverUrl = "http://" + host + ":" + (defaultPort + portOffset) + authContextPath;
             }
 
         }
