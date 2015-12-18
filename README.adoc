@@ -17,11 +17,48 @@ respective module's README files.
 * secret-store-api: components that are intended to be consumed by other Java Enterprise Web Applications
 * feature-pack: Generates a feature pack for Wildfly. Intended to be consumed only by the integration tests
 * feature-pack-resources: Extra resources needed by the final distribution
-* integratio-tests: A set of integration tests
+* integration-tests: A set of integration tests
+* proxy: HTTP Proxy which replaces key/secret by OAuth Tokens before forwarding the request to the target server.
+* undertow-filter: Undertow Filter which replaces key/secret by OAuth tokens on incoming requests.
 
 == Basic usage
 
-Coming soon.
+The Secret Store has the following main components:
+
+- Backend, protected via the Keycloak Wildfly Adapter
+- Undertow Filter
+- Proxy
+
+A token is created when an user reaches the path "/secret-store/v1/tokens/create" via GET (or passing the username and
+password as Basic authentication via POST) and stored into a Cassandra data store:
+
+[source,bash]
+----
+$ curl -u jdoe:password -H 'Accept: application/json' http://localhost:8080/secret-store/v1/tokens/create -X POST
+{"key":"07579322-a915-4b1c-89b3-39b13b013193","secret":"55f32d90fd821c3d198e11ec05d896e4"}
+----
+
+If the target application is using the Undertow Filter, then the client application can start using this token as
+username/password when calling the target application:
+[source,bash]
+----
+$ curl -u jdoe:password -H 'Accept: application/json' http://localhost:8080/hawkular/accounts/personas/current
+{"id":"28026b36-8fe4-4332-84c8-524e173a68bf","createdAt":"2015-12-18T14:19:13.816Z","updatedAt":"2015-12-18T14:19:13.816Z","name":"John Doe","idAsUUID":"28026b36-8fe4-4332-84c8-524e173a68bf"}
+
+$ curl -u 07579322-a915-4b1c-89b3-39b13b013193:55f32d90fd821c3d198e11ec05d896e4 -H 'Accept: application/json' http://localhost:8080/hawkular/accounts/personas/current
+{"id":"28026b36-8fe4-4332-84c8-524e173a68bf","createdAt":"2015-12-18T14:19:13.816Z","updatedAt":"2015-12-18T14:19:13.816Z","name":"John Doe","idAsUUID":"28026b36-8fe4-4332-84c8-524e173a68bf"}
+----
+
+Similarly, the client application can send the token to the target application when using the proxy. The proxy will take
+care of converting the key/secret into a bearer token, so that the target application sees only this OAuth token. In the
+following example, the proxy is running on localhost:8081:
+[source,bash]
+----
+$ curl -x http://localhost:8081 -u 07579322-a915-4b1c-89b3-39b13b013193:55f32d90fd821c3d198e11ec05d896e4 -H 'Accept: application/json' http://localhost:8080/hawkular/accounts/personas/current
+{"id":"28026b36-8fe4-4332-84c8-524e173a68bf","createdAt":"2015-12-18T14:19:13.816Z","updatedAt":"2015-12-18T14:19:13.816Z","name":"John Doe","idAsUUID":"28026b36-8fe4-4332-84c8-524e173a68bf"}
+----
+
+Refer to the Backend's, Filter's and/or to the Proxy's README for more details on how to use it.
 
 == What's this Hawkular thing I see in the code?
 

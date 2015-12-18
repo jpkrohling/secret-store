@@ -1,0 +1,50 @@
+= Secret Store - Backend
+
+The Secret Store backend is responsible for obtaining an Offline Token from the Keycloak Auth Server and generating an
+opaque key/secret that references this offline token. Additionally, it uses the API to store this data into a permanent
+store. Currently, this permanent store is Cassandra.
+
+== How it works
+
+The backend has a GET endpoint for obtaining an Offline Token from the Keycloak Auth Server. Your frontend application
+can direct the end user to this endpoint. The system property `secretstore.redirectTo` tells the backend where the end
+user should be redirected to. If there's a need to store additional properties in the token, the system property
+`secretstore.parametersToPersist` can be used.
+
+In addition to the GET endpoint, there's also a similar POST endpoint that accepts an username:password, suitable for
+calls from CLI.
+
+The backend requires a Cassandra server to be running. The integration tests module uses an embedded Cassandra service.
+The nodes/port for the Cassandra server(s) can be passed via the environment variables `CASSANDRA_NODES` and
+`CASSANDRA_PORT`.
+
+== Basic usage
+
+Given that the Cassandra requirement is satisfied, the backend should be deployed as a regular web application into
+Wildfly. This usually just means copying the WAR into `$WILDFLY_HOME/standalone/deployments/`.
+
+This backend may be deployed on the same Wildfly as the target application.
+
+== License
+
+Secret Store is released under Apache License, Version 2.0 as described in the link:LICENSE[LICENSE] document
+
+----
+   Copyright 2015 Red Hat, Inc.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+----
+
+
+
+

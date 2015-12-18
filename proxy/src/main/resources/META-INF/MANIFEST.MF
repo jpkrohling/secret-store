@@ -1,1 +1,0 @@
-Main-Class: org.jboss.weld.environment.se.StartMain

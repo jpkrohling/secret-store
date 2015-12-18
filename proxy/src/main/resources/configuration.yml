@@ -1,6 +1,6 @@
 realmName: secret-store
 resourceName: secret-store
-resourceSecret: ${}
+resourceSecret: ${uuid.secretstore}
 authServerUrl: http://localhost:8080/auth
 port: 8081
 bind: localhost

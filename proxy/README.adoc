@@ -1,0 +1,98 @@
+= Secret Store - Proxy
+
+The Secret Store Proxy is intended to be used as a regular HTTP proxy. Its purpose is to replace the key/secret sent
+in a request with the Access Token for the given key/secret, making a backend HTTP call to the target service.
+
+Example:
+
+* Key: `abc`
+* Secret: `123`
+* Proxy URL: `http://localhost:8081`
+* Target server: `http://localhost:8080`
+
+On this scenario, a client with the key/secret would use `http://localhost:8081` as proxy for the target server:
+[source,bash]
+----
+$ curl -u abc:123 -x http://localhost:8081 http://localhost:8080
+----
+
+The request first reaches the proxy server, which gets the OAuth token for key/secret `abc/123`. The proxy removes the
+key/secret from the HTTP headers, including an `Authorization: Bearer <OAuthToken>` instead. The target server has no
+access to the key/secret, as it sees only the bearer token.
+
+== How it works
+
+The proxy is built on top of the existing infra of the Secret Store Undertow Filter, API and Commons. So, it uses
+Weld SE to bootstrap a CDI environment and then starts an Undertow Web Server, with a `ProxyClient` based on
+`SimpleProxyClientProvider`. Once a request comes in, the handler passes the request to the `RequestRewriter` and makes
+a call to the target server with this request, which might or might have not been changed by the rewriter.
+
+== Basic usage
+
+Build this module and run:
+
+[source,bash]
+----
+$ java -jar target/secret-store-proxy-jar-with-dependencies.jar -c /path/to/configuration.yml
+----
+
+The configuration file is an YAML file, with the following options:
+
+[source,yml]
+----
+realmName: secret-store
+resourceName: secret-store
+resourceSecret: ...
+authServerUrl: http://localhost:8080/auth
+port: 8081
+bind: localhost
+----
+
+== Production usage
+
+On a Fedora-based distribution with `systemd`:
+
+* Copy the service unit file from `src/main/resources` to `/etc/systemd/system`
+* Copy the JAR `secret-store-proxy-jar-with-dependencies.jar` to `/usr/share/java/`
+* Add the configuration file to `/etc/secret-store-proxy.yml`
+* Start the service:
+[source,bash]
+----
+# systemctl start secret-store-proxy.service
+----
+
+* If the service should be started after the server boots, enable the service:
+[source,bash]
+----
+# systemctl enable secret-store-proxy.service
+----
+
+* Logs can be checked with `journald`:
+[source,bash]
+----
+# journalctl -f -u secret-store-proxy
+----
+
+== License
+
+Secret Store is released under Apache License, Version 2.0 as described in the link:LICENSE[LICENSE] document
+
+----
+   Copyright 2015 Red Hat, Inc.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+----
+
+
+
+

@@ -64,7 +64,7 @@
     </issueManagement>
 
     <ciManagement>
-        <system>Travis CI</system>
+        <system>Jenkins</system>
         <url>https://jenkins.kroehling.de/job/secret-store/</url>
     </ciManagement>
 

@@ -1,0 +1,47 @@
+= Secret Store - Undertow Filter
+
+The Secret Store Undertow Filter is meant to be included by target applications and replaces incoming key/secrets by
+Access tokens.
+
+== How it works
+
+The Undertow Filter intercepts the requests before any HTTP Servlet Filters, which means that it runs even before the
+Keycloak Wildfly Adapter. Once a request comes in, the filter identifies the key/secret and replaces it with an
+OAuth Access Token, generated via a previously stored Offline Token (by the backend, see the Backend's README for
+more information). If a key/secret is available on the request and an Access Token could be retrieved, the request
+continues. The Keycloak Wildfly Adapter sees a bearer token instead of a key/secret.
+
+== Basic usage
+
+Just include this module as a dependency to your WAR project and add the context parameter
+`org.keycloak.secretstore.enabled` with a value of `true` to your `web.xml`. If everything is correctly set, the
+following log entry can be found:
+
+[source]
+----
+16:07:38,427 INFO  [org.keycloak.secretstore.undertow.filter] (ServerService Thread Pool -- 70) SECSTORE100001: Secret Store enabled. Checking all incoming requests.
+----
+
+== License
+
+Secret Store is released under Apache License, Version 2.0 as described in the link:LICENSE[LICENSE] document
+
+----
+   Copyright 2015 Red Hat, Inc.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+----
+
+
+
+
