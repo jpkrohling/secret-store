@@ -24,7 +24,7 @@
     <display-name>Secret Store</display-name>
 
     <listener>
-        <listener-class>org.hawkular.accounts.common.ServletContextEnhancer</listener-class>
+        <listener-class>org.keycloak.secretstore.common.ServletContextEnhancer</listener-class>
     </listener>
 
     <security-constraint>

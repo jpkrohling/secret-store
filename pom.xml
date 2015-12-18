@@ -27,9 +27,11 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>common</module>
         <module>undertow-filter</module>
         <module>secret-store-api</module>
         <module>secret-store</module>
+        <module>proxy</module>
     </modules>
 
     <inceptionYear>2015</inceptionYear>

@@ -26,45 +26,60 @@
     <version>1.0.5.Final-SNAPSHOT</version>
   </parent>
 
-  <name>Secret Store - Undertow Filter</name>
-  <artifactId>secret-store-undertow-filter</artifactId>
+  <name>Secret Store - Commons</name>
+  <artifactId>secret-store-common</artifactId>
   <packaging>jar</packaging>
 
   <description>
-    Undertow Filter: intercepts all requests and replaces a key/secret with an appropriate Keycloak token.
+    Useful code for the Secret Store in general.
   </description>
 
   <dependencies>
     <dependency>
-      <groupId>org.keycloak.secretstore</groupId>
-      <artifactId>secret-store-api</artifactId>
-      <version>1.0.5.Final-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.keycloak.secretstore</groupId>
-      <artifactId>secret-store-common</artifactId>
-      <version>1.0.5.Final-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>io.undertow</groupId>
-      <artifactId>undertow-servlet</artifactId>
+      <groupId>org.jboss.spec.javax.servlet</groupId>
+      <artifactId>jboss-servlet-api_3.1_spec</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.jboss.spec.javax.json</groupId>
       <artifactId>jboss-json-api_1.0_spec</artifactId>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>javax.enterprise</groupId>
       <artifactId>cdi-api</artifactId>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.jboss.spec.javax.ejb</groupId>
+      <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.spec.javax.enterprise.concurrent</groupId>
+      <artifactId>jboss-concurrency-api_1.0_spec</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.spec.javax.annotation</groupId>
+      <artifactId>jboss-annotations-api_1.2_spec</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.datastax.cassandra</groupId>
+      <artifactId>cassandra-driver-core</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.keycloak</groupId>
+      <artifactId>keycloak-core</artifactId>
+      <scope>provided</scope>
+    </dependency>
 
     <dependency>
       <groupId>org.jboss.logging</groupId>
       <artifactId>jboss-logging</artifactId>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.jboss.logging</groupId>
@@ -76,7 +91,17 @@
       <artifactId>jboss-logging-processor</artifactId>
       <scope>provided</scope>
     </dependency>
-  </dependencies>
 
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>
 

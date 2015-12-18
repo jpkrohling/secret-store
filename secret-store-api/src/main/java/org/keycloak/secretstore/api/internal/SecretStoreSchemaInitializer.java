@@ -17,7 +17,7 @@
 package org.keycloak.secretstore.api.internal;
 
 import com.datastax.driver.core.Session;
-import org.hawkular.accounts.common.internal.CassandraSessionCallable;
+import org.keycloak.secretstore.common.internal.CassandraSessionCallable;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -33,6 +33,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 import java.util.stream.Collectors;
 
 /**
@@ -47,11 +48,26 @@ public class SecretStoreSchemaInitializer {
     CassandraSessionCallable cassandraSessionCallable;
     MsgLogger logger = MsgLogger.LOGGER;
     private Future<Session> sessionFuture;
+
     @Resource
     private ManagedExecutorService executor;
 
     @PostConstruct
     public void init() {
+        if (null == executor) {
+            // we have no executor, we are probably not in an EE environment
+            try {
+                FutureTask<Session> task = new FutureTask<>(cassandraSessionCallable);
+                task.run();
+
+                sessionFuture = task;
+            } catch (Exception e) {
+                throw new RuntimeException("Could not connect to Cassandra", e);
+            }
+            return;
+        }
+
+        // we are in an EE environment, delegate it to the container
         sessionFuture = executor.submit(cassandraSessionCallable);
     }
 

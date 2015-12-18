@@ -22,7 +22,7 @@ import org.jboss.logging.annotations.*;
 /**
  * @author Juraci Paixão Kröhling
  */
-@MessageLogger(projectCode = "HAWKACC")
+@MessageLogger(projectCode = "SECSTORE")
 @ValidIdRange(min = 160000, max = 169999)
 public interface MsgLogger {
     MsgLogger LOGGER = Logger.getMessageLogger(MsgLogger.class, MsgLogger.class.getPackage().getName());
@@ -30,5 +30,17 @@ public interface MsgLogger {
     @LogMessage(level = Logger.Level.FATAL)
     @Message(id = 160000, value = "Failed to initialize Cassandra's schema for Secret Store. Reason")
     void failedToInitializeSchema(@Cause Throwable t);
+
+    @LogMessage(level = Logger.Level.ERROR)
+    @Message(id = 160001, value = "Secret Store received a response from Keycloak that doesn't include a bearer token.")
+    void invalidResponseFromServer();
+
+    @LogMessage(level = Logger.Level.ERROR)
+    @Message(id = 160002, value = "Secret Store a bearer response from Keycloak without the token itself!")
+    void invalidBearerTokenFromServer();
+
+    @LogMessage(level = Logger.Level.ERROR)
+    @Message(id = 160003, value = "Secret Store received an error response from Keycloak: %s")
+    void errorResponseFromServer(String errorMessage);
 
 }

@@ -1,0 +1,6 @@
+realmName: secret-store
+resourceName: secret-store
+resourceSecret: ${}
+authServerUrl: http://localhost:8080/auth
+port: 8081
+bind: localhost

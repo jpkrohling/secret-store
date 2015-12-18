@@ -20,10 +20,10 @@ import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
-import org.hawkular.accounts.common.ZonedDateTimeAdapter;
 import org.keycloak.secretstore.api.internal.BoundStatements;
 import org.keycloak.secretstore.api.internal.NamedStatement;
 import org.keycloak.secretstore.api.internal.SecretStore;
+import org.keycloak.secretstore.common.ZonedDateTimeAdapter;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
