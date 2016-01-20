@@ -33,6 +33,9 @@
         <module>secret-store-api</module>
         <module>secret-store</module>
         <module>proxy</module>
+        <module>feature-pack-resources</module>
+        <module>feature-pack</module>
+        <module>integration-tests</module>
     </modules>
 
     <inceptionYear>2015</inceptionYear>
@@ -290,20 +293,7 @@
 
     <profiles>
         <profile>
-            <id>itest</id>
-            <modules>
-                <module>feature-pack-resources</module>
-                <module>feature-pack</module>
-                <module>integration-tests</module>
-            </modules>
-        </profile>
-        <profile>
             <id>release</id>
-            <modules>
-                <module>feature-pack-resources</module>
-                <module>feature-pack</module>
-                <module>integration-tests</module>
-            </modules>
             <build>
                 <plugins>
                     <plugin>
