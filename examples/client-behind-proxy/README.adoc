@@ -6,6 +6,13 @@ so, all it needs is the Keycloak configuration.
 To test the proxy approach, you need to start the proxy and the Wildfly server assembled under the `server` directory.
 Refer to the instructions on the `proxy` module about how to start the proxy.
 
+For a quick test, the services can be started this way, each command in a different terminal:
+[source,bash]
+----
+$ java -jar ./proxy/target/secret-store-proxy-jar-with-dependencies.jar
+$ examples/server/target/secret-store-examples-server-1.0.5.Final-SNAPSHOT/bin/standalone.sh
+----
+
 Once both services are started, these are the expected responses:
 
 Non-authenticated response

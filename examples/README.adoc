@@ -2,8 +2,10 @@
 
 This module has a set of examples of how to consume the secret store.
 
-* iot-behind-proxy : iot -> proxy -> backend service
-* filter-on-backend : iot -> filter -> backend service
+* backend: this represents your backend, and contains a REST `EchoEndpoint`, which returns a JSON with the user's name (UUID) and the message.
+* client-behind-proxy : Wraps the backend into a WAR file.
+* filter-on-backend : Wraps the backend into a WAR file, adding the filter integration.
+* server: an assembly of the backend in the two flavours deployed into a ready to use Wildfly server.
 
 == License
 

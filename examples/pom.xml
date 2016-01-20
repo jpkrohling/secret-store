@@ -37,7 +37,6 @@
 
     <modules>
         <module>backend</module>
-        <module>client</module>
         <module>client-behind-proxy</module>
         <module>filter-on-backend</module>
         <module>server</module>

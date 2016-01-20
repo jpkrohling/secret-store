@@ -20,6 +20,7 @@ respective module's README files.
 * integration-tests: A set of integration tests
 * proxy: HTTP Proxy which replaces key/secret by OAuth Tokens before forwarding the request to the target server.
 * undertow-filter: Undertow Filter which replaces key/secret by OAuth tokens on incoming requests.
+* examples: Shows how to use the secret store by embedding a filter or by deploying a proxy.
 
 == Basic usage
 
@@ -29,7 +30,7 @@ The Secret Store has the following main components:
 - Undertow Filter
 - Proxy
 
-A token is created when an user reaches the path "/secret-store/v1/tokens/create" via GET (or passing the username and
+A token is created when an user reaches the path `/secret-store/v1/tokens/create` via GET (or passing the username and
 password as Basic authentication via POST) and stored into a Cassandra data store:
 
 [source,bash]
@@ -74,12 +75,6 @@ The API and backend can be build as a regular Maven project:
 [source,bash]
 ----
 $ mvn clean install
-----
-
-To build all modules, including the integration tests, use:
-[source,bash]
-----
-$ mvn clean install -Pitest
 ----
 
 == Releasing
