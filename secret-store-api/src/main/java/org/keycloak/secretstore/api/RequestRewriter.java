@@ -24,6 +24,7 @@ import org.keycloak.secretstore.common.AuthServerRequestExecutor;
 import org.keycloak.secretstore.common.AuthServerUrl;
 import org.keycloak.secretstore.common.RealmName;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.json.Json;
@@ -39,6 +40,7 @@ import java.util.regex.Pattern;
  * @author Juraci Paixão Kröhling
  */
 @Singleton
+@PermitAll
 public class RequestRewriter {
     private static final Pattern UUID_PATTERN =
             Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}");

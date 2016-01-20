@@ -36,6 +36,7 @@
         <module>feature-pack-resources</module>
         <module>feature-pack</module>
         <module>integration-tests</module>
+        <module>examples</module>
     </modules>
 
     <inceptionYear>2015</inceptionYear>
