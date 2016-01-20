@@ -8,6 +8,22 @@ ifdef::env-github[]
 image:https://jenkins.kroehling.de/buildStatus/icon?job=secret-store["Build Status", link="https://jenkins.kroehling.de/job/secret-store/"]
 endif::[]
 
+== Why?
+
+Ideally, every client communicating with a service protected by an OAuth solution would use OAuth when sending the requests.
+Unfortunately, that's not always possible, feasible or even desirable. For instance, on batch jobs or daemons, the logic
+of storing an OAuth Offline Token and getting an OAuth Access Token based on the Offline Token might be too much for a
+simple script that would otherwise be very simple. Or even, your client might be a legacy application, where no change
+in the code would be allowed (or desirable). There are also situations where the client is not powerful enough or might live
+in a location far from the Auth server, making it unfeasible store the logic there or to make an extra HTTP round trip
+just to get an Access Token.
+
+For those cases, the Secret Store exists: the Offline token is created on Keycloak via an user interaction and an opaque
+token backed by this Offline token is generated on the Secret Store. In return, the Secret Store provides a key and
+secret, that references this Offline token. The clients use this key/secret pair and send them as standard HTTP Basic
+Authentication to your target service, and the filter (or proxy) is responsible for handling the OAuth logic of
+converting an Offline Token into an Access Token. It also handles the storage, creation and caching of such tokens.
+
 == About Secret Store
 
 The project is divided into several modules. More information about the individual modules can be found in the
