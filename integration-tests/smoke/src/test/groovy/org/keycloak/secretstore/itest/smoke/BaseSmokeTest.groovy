@@ -23,7 +23,7 @@ import org.junit.BeforeClass
 /**
  * @author Juraci Paixão Kröhling
  */
-class BaseSmokeTest extends BaseTest {
+class BaseSmokeTest {
     protected static final String testUser = 'jdoe'
     protected static final String testPasword = 'password'
 
