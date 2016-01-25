@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS secretstore.tokens (
     secret varchar,
     principal varchar,
     attributes map<varchar, varchar>,
+    expiresAt timestamp,
     createdAt timestamp,
     updatedAt timestamp
 );

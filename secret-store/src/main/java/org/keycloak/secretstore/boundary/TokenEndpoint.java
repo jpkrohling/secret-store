@@ -21,8 +21,10 @@ import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 import org.keycloak.secretstore.api.Token;
 import org.keycloak.secretstore.api.TokenService;
 import org.keycloak.secretstore.common.UsernamePasswordConverter;
+import org.keycloak.secretstore.common.ZonedDateTimeAdapter;
 import org.keycloak.secretstore.entity.TokenCreateResponse;
 import org.keycloak.secretstore.entity.TokenErrorResponse;
+import org.keycloak.secretstore.entity.rest.TokenUpdateRequest;
 
 import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
@@ -69,6 +71,9 @@ public class TokenEndpoint {
 
     @Inject
     UsernamePasswordConverter usernamePasswordConverter;
+
+    @Inject
+    ZonedDateTimeAdapter zonedDateTimeAdapter;
 
     @GET
     @Path("/")
@@ -192,5 +197,35 @@ public class TokenEndpoint {
             }
         }
         return tokenService.create(token);
+    }
+
+    @PUT
+    @Path("{tokenId}")
+    public Response update(@PathParam("tokenId") String tokenId, TokenUpdateRequest request) {
+        Token token = tokenService.getByIdForTrustedConsumers(UUID.fromString(tokenId));
+
+        if (!token.getPrincipal().equals(sessionContext.getCallerPrincipal().getName())) {
+            return Response
+                    .status(Response.Status.NOT_FOUND)
+                    .entity(new TokenErrorResponse("Token not found for principal."))
+                    .build();
+        }
+
+        boolean changed = false;
+        if (null != request.getAttributes()) {
+            token.setAttributes(request.getAttributes());
+            changed = true;
+        }
+
+        if (null != request.getExpiresAt() && !request.getExpiresAt().isEmpty()) {
+            token.setExpiresAt(zonedDateTimeAdapter.convertToEntityAttribute(request.getExpiresAt()));
+            changed = true;
+        }
+
+        if (changed) {
+            token = tokenService.update(token);
+        }
+
+        return Response.ok(token).build();
     }
 }

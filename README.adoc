@@ -75,6 +75,10 @@ $ curl -x http://localhost:8081 -u 07579322-a915-4b1c-89b3-39b13b013193:55f32d90
 {"id":"28026b36-8fe4-4332-84c8-524e173a68bf","createdAt":"2015-12-18T14:19:13.816Z","updatedAt":"2015-12-18T14:19:13.816Z","name":"John Doe","idAsUUID":"28026b36-8fe4-4332-84c8-524e173a68bf"}
 ----
 
+Once a token has been generated, a QR Code can be generated with the key, secret and expiration date. For that, just
+display the following URL as a PNG image to the authenticated user: `/secret-store/qrcode?tokenId=key&size=50` , replacing
+`key` by the actual Token key. The `size` parameter is optional, and shows a 250x250 PNG image by default.
+
 Refer to the Backend's, Filter's and/or to the Proxy's README for more details on how to use it.
 
 == What's this Hawkular thing I see in the code?

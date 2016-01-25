@@ -65,6 +65,10 @@ public class TokenService {
     @NamedStatement(BoundStatements.REVOKE_BY_ID)
     Instance<BoundStatement> stmtRevokeById;
 
+    @Inject
+    @NamedStatement(BoundStatements.UPDATE)
+    Instance<BoundStatement> stmtUpdate;
+
     public Token create(Token token) {
         UUID id = token.getId();
         String refreshToken = token.getRefreshToken();
@@ -73,7 +77,7 @@ public class TokenService {
         Date createdAt = zonedDateTimeAdapter.convertToDatabaseColumn(token.getCreatedAt());
         Date updatedAt = zonedDateTimeAdapter.convertToDatabaseColumn(token.getUpdatedAt());
         Map<String, String> attributes = token.getAttributes();
-        session.execute(stmtCreate.get().bind(id, refreshToken, secret, principal, attributes, createdAt, updatedAt));
+        session.execute(stmtCreate.get().bind(id, refreshToken, secret, principal, attributes, null, createdAt, updatedAt));
         return token;
     }
 
@@ -94,6 +98,17 @@ public class TokenService {
         }
 
         return getFullTokenFromRow(rows.stream().findFirst().get());
+    }
+
+    public Token update(Token token) {
+        session.execute(
+                stmtUpdate.get().bind(
+                        token.getAttributes(),
+                        zonedDateTimeAdapter.convertToDatabaseColumn(token.getExpiresAt()),
+                        token.getId()
+                )
+        );
+        return token;
     }
 
     public Token getByIdForDistribution(UUID id) {
@@ -152,6 +167,12 @@ public class TokenService {
         String secret = row.getString("secret");
         String principal = row.getString("principal");
         Map<String, String> attributes = row.getMap("attributes", String.class, String.class);
-        return new Token(id, createdAt, updatedAt, null, secret, attributes, principal);
+
+        ZonedDateTime expiresAt = null;
+        if (!row.isNull("expiresAt")) {
+            expiresAt = zonedDateTimeAdapter.convertToEntityAttribute(row.getTimestamp("expiresAt"));
+        }
+
+        return new Token(id, createdAt, updatedAt, null, secret, attributes, principal, expiresAt);
     }
 }

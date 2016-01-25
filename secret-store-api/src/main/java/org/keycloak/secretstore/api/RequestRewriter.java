@@ -23,6 +23,7 @@ import org.keycloak.secretstore.api.internal.MsgLogger;
 import org.keycloak.secretstore.common.AuthServerRequestExecutor;
 import org.keycloak.secretstore.common.AuthServerUrl;
 import org.keycloak.secretstore.common.RealmName;
+import org.keycloak.secretstore.common.ZonedDateTimeAdapter;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.Singleton;
@@ -32,6 +33,7 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import java.io.StringReader;
 import java.net.URLEncoder;
+import java.time.ZonedDateTime;
 import java.util.Base64;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -73,6 +75,7 @@ public class RequestRewriter {
         HeaderValues authorizationHeaders = httpServerExchange.getRequestHeaders().get("Authorization");
         if (authorizationHeaders == null || authorizationHeaders.size() < 1) {
             // nothing to do, credentials not provided
+            logger.noAuthorizationHeader();
             return httpServerExchange;
         }
 
@@ -80,10 +83,12 @@ public class RequestRewriter {
         String[] authorizationHeaderParts = authorizationHeader.trim().split("\\s+");
 
         if (authorizationHeaderParts.length != 2) {
+            logger.authorizationHeaderInvalid(authorizationHeader);
             return httpServerExchange;
         }
 
         if (!authorizationHeaderParts[0].equalsIgnoreCase("Basic")) {
+            logger.noBasicAuth();
             return httpServerExchange;
         }
 
@@ -94,11 +99,13 @@ public class RequestRewriter {
 
         if (keyAsString == null || keyAsString.isEmpty()) {
             // nothing to do, credentials not provided
+            logger.keyIsEmpty();
             return httpServerExchange;
         }
 
         if (!UUID_PATTERN.matcher(keyAsString).matches()) {
             // not an UUID, can't be a token
+            logger.notLikeUUID(keyAsString);
             return httpServerExchange;
         }
 
@@ -107,30 +114,42 @@ public class RequestRewriter {
             key = UUID.fromString(keyAsString);
         } catch (Throwable t) {
             // not an UUID, can't be a token
+            logger.notAnUUID(keyAsString);
             return httpServerExchange;
         }
 
         Token token = tokenService.validate(key, secret);
 
         if (token == null) {
-            httpServerExchange.setResponseCode(403);
+            logger.tokenNotFound(keyAsString);
+            httpServerExchange.setStatusCode(403);
+            httpServerExchange.endExchange();
+            return null;
+        }
+
+        if (null != token.getExpiresAt() && ZonedDateTime.now().isAfter(token.getExpiresAt())) {
+            logger.tokenExpired(token.getId().toString(), token.getExpiresAt().toString(), ZonedDateTime.now().toString());
+            httpServerExchange.setStatusCode(403);
             httpServerExchange.endExchange();
             return null;
         }
 
         String bearerToken = getBearerToken(token);
         if (bearerToken == null) {
-            httpServerExchange.setResponseCode(403);
+            logger.cannotGetBearerToken(token.getId().toString());
+            httpServerExchange.setStatusCode(403);
             httpServerExchange.endExchange();
             return null;
         }
 
+        logger.tokenReplaced(token.getId().toString(), bearerToken);
         httpServerExchange.getRequestHeaders().remove("Authorization");
-        httpServerExchange.getRequestHeaders().remove("Hawkular-Persona");
         httpServerExchange.getRequestHeaders().put(new HttpString("Authorization"), "Bearer " + bearerToken);
-        httpServerExchange.getRequestHeaders().put(
-                new HttpString("Hawkular-Persona"), token.getAttribute("Hawkular-Persona")
-        );
+
+        token.getAttributes().forEach((k, v) -> {
+            httpServerExchange.getRequestHeaders().remove(k);
+            httpServerExchange.getRequestHeaders().put(new HttpString(k), v);
+        });
 
         return httpServerExchange;
     }

@@ -20,6 +20,9 @@ import org.jboss.arquillian.junit.Arquillian
 import org.junit.Test
 import org.junit.runner.RunWith
 
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
+
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertNotNull
 
@@ -27,10 +30,36 @@ import static org.junit.Assert.assertNotNull
 class SecretStoreITest extends BaseSmokeTest {
 
     @Test
-    void createTokenBasedOnCurrentPersonaCredentials() {
+    void createTokenBasedOnCurrentUserCredentials() {
         def response = client.post(path: "/secret-store/v1/tokens/create")
         assertEquals(200, response.status)
         assertNotNull(response.data.key)
         assertNotNull(response.data.secret)
+    }
+
+    @Test
+    void setExpiresAt() {
+        def response = client.post(path: "/secret-store/v1/tokens/create")
+        def token = response.data
+
+        ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC)
+        response = client.put(
+                path: "/secret-store/v1/tokens/${token.key}",
+                body: [expiresAt: now.toString()]
+        )
+        ZonedDateTime persisted = ZonedDateTime.parse(response.data.expiresAt).withZoneSameInstant(ZoneOffset.UTC)
+        assertEquals("Expires At should have been set", now, persisted)
+    }
+
+    @Test
+    void setExtraAttribute() {
+        def response = client.post(path: "/secret-store/v1/tokens/create")
+        def token = response.data
+
+        response = client.put(
+                path: "/secret-store/v1/tokens/${token.key}",
+                body: [attributes: [name: "My lovely token"]]
+        )
+        assertEquals("Extra attribute should have been set", "My lovely token", response.data.attributes.name)
     }
 }

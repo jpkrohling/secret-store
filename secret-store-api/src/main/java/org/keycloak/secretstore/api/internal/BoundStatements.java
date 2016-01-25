@@ -25,9 +25,15 @@ public enum BoundStatements {
     GET_BY_PRINCIPAL("get-token-by-principal", "SELECT * FROM secretstore.tokens WHERE principal = ?"),
     CREATE("create-token",
             "INSERT INTO secretstore.tokens " +
-                    "(id, refreshToken, secret, principal, attributes, createdAt, updatedAt) " +
+                    "(id, refreshToken, secret, principal, attributes, expiresAt, createdAt, updatedAt) " +
                     "VALUES " +
-                    "(?, ?, ?, ?, ?, ?, ?)");
+                    "(?, ?, ?, ?, ?, ?, ?, ?)"),
+    UPDATE("update-token",
+            "UPDATE secretstore.tokens SET " +
+                    "attributes = ?, " +
+                    "expiresAt = ? " +
+                    "WHERE " +
+                    "id = ?");
 
     private String name;
     private String value;

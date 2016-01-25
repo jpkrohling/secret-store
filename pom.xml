@@ -123,10 +123,11 @@
         <version.org.codehaus.groovy.modules.http-builder>0.7</version.org.codehaus.groovy.modules.http-builder>
         <version.org.codehaus.gmavenplus.gmavenplus-plugin>1.2</version.org.codehaus.gmavenplus.gmavenplus-plugin>
         <version.org.jboss.spec.javax.json>1.0.0.Final</version.org.jboss.spec.javax.json>
-        <version.org.keycloak>1.8.0.Alpha1</version.org.keycloak>
+        <version.org.keycloak>1.8.0.CR3</version.org.keycloak>
         <version.org.mockito>1.10.19</version.org.mockito>
         <version.org.wildfly>10.0.0.CR4</version.org.wildfly>
         <version.org.wildfly.build>1.1.1.Final</version.org.wildfly.build>
+        <version.com.fasterxml.jackson.core>2.5.4</version.com.fasterxml.jackson.core>
 
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <jboss.releases.repo.url>
@@ -178,6 +179,24 @@
                 <groupId>com.datastax.cassandra</groupId>
                 <artifactId>cassandra-driver-core</artifactId>
                 <version>${version.com.datastax.cassandra}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${version.com.fasterxml.jackson.core}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${version.com.fasterxml.jackson.core}</version>
+            </dependency>
+
+            <!-- For the QR Code Servlet -->
+            <dependency>
+                <groupId>com.github.kenglxn.qrgen</groupId>
+                <artifactId>javase</artifactId>
+                <version>2.1.0</version>
             </dependency>
 
             <!-- Testing dependencies -->
@@ -290,6 +309,14 @@
             </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <!-- For the QR Code Servlet -->
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 
     <profiles>
         <profile>

@@ -30,6 +30,7 @@ public class Token extends BaseEntity {
     private String refreshToken;
     private String secret;
     private String principal;
+    private ZonedDateTime expiresAt;
     private Map<String, String> attributes = new HashMap<>();
 
     protected Token(String refreshToken, String principal) {
@@ -50,11 +51,12 @@ public class Token extends BaseEntity {
     }
 
     public Token(UUID id, ZonedDateTime createdAt, ZonedDateTime updatedAt,
-                 String refreshToken, String secret, Map<String, String> attributes, String principal) {
+                 String refreshToken, String secret, Map<String, String> attributes, String principal, ZonedDateTime expiresAt) {
         super(id, createdAt, updatedAt);
         this.refreshToken = refreshToken;
         this.secret = secret;
         this.principal = principal;
+        this.expiresAt = expiresAt;
         setAttributes(attributes);
     }
 
@@ -104,5 +106,13 @@ public class Token extends BaseEntity {
 
     public String getPrincipal() {
         return principal;
+    }
+
+    public ZonedDateTime getExpiresAt() {
+        return expiresAt;
+    }
+
+    public void setExpiresAt(ZonedDateTime expiresAt) {
+        this.expiresAt = expiresAt;
     }
 }

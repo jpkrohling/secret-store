@@ -33,7 +33,7 @@ public class ZonedDateTimeAdapter {
         if (null == attribute) {
             return null;
         }
-        return Timestamp.valueOf(attribute.toLocalDateTime());
+        return Timestamp.from(attribute.toInstant());
     }
 
     public ZonedDateTime convertToEntityAttribute(Timestamp dbData) {
@@ -41,6 +41,13 @@ public class ZonedDateTimeAdapter {
             return null;
         }
         return ZonedDateTime.of(dbData.toLocalDateTime(), ZoneOffset.UTC);
+    }
+
+    public ZonedDateTime convertToEntityAttribute(String dbData) {
+        if (null == dbData) {
+            return null;
+        }
+        return ZonedDateTime.parse(dbData);
     }
 
     public ZonedDateTime convertToEntityAttribute(Date dbData) {

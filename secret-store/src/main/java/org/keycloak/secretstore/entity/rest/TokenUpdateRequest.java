@@ -14,15 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.keycloak.secretstore.entity.rest;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.util.Map;
+
 /**
  * @author Juraci Paixão Kröhling
  */
-@XmlJavaTypeAdapters({@XmlJavaTypeAdapter(type=ZonedDateTime.class,value=ZonedDateTimeXmlAdapter.class)})
-package org.keycloak.secretstore.api;
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class TokenUpdateRequest {
+    private Map<String, String> attributes;
+    private String expiresAt;
 
-import org.keycloak.secretstore.api.internal.ZonedDateTimeXmlAdapter;
+    public Map<String, String> getAttributes() {
+        return attributes;
+    }
 
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapters;
-import java.time.ZonedDateTime;
+    public void setAttributes(Map<String, String> attributes) {
+        this.attributes = attributes;
+    }
 
+    public String getExpiresAt() {
+        return expiresAt;
+    }
+
+    public void setExpiresAt(String expiresAt) {
+        this.expiresAt = expiresAt;
+    }
+}
