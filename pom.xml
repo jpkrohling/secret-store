@@ -128,6 +128,7 @@
         <version.org.wildfly>10.0.0.CR4</version.org.wildfly>
         <version.org.wildfly.build>1.1.1.Final</version.org.wildfly.build>
         <version.com.fasterxml.jackson.core>2.5.4</version.com.fasterxml.jackson.core>
+        <version.google.zxing>3.2.1</version.google.zxing>
 
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <jboss.releases.repo.url>
@@ -194,9 +195,14 @@
 
             <!-- For the QR Code Servlet -->
             <dependency>
-                <groupId>com.github.kenglxn.qrgen</groupId>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>core</artifactId>
+                <version>${version.google.zxing}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.zxing</groupId>
                 <artifactId>javase</artifactId>
-                <version>2.1.0</version>
+                <version>${version.google.zxing}</version>
             </dependency>
 
             <!-- Testing dependencies -->
@@ -309,14 +315,6 @@
             </plugin>
         </plugins>
     </build>
-
-    <repositories>
-        <!-- For the QR Code Servlet -->
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
 
     <profiles>
         <profile>

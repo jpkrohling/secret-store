@@ -17,9 +17,11 @@
 package org.keycloak.secretstore.boundary;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.zxing.EncodeHintType;
-import net.glxn.qrgen.core.image.ImageType;
-import net.glxn.qrgen.javase.QRCode;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import org.keycloak.secretstore.api.Token;
 import org.keycloak.secretstore.api.TokenService;
 
@@ -30,6 +32,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.UUID;
@@ -94,14 +97,21 @@ public class QRCodeServlet extends HttpServlet {
             response += "," + token.getExpiresAt().toString();
         }
 
-        QRCode qrcode = QRCode
-                .from(response)
-                .to(ImageType.PNG)
-                .withSize(size, size)
-                .withHint(EncodeHintType.CHARACTER_SET, "UTF-8");
+        BitMatrix bitMatrix;
+        try {
+            QRCodeWriter writer = new QRCodeWriter();
+            bitMatrix = writer.encode(response, BarcodeFormat.QR_CODE, size, size);
+        } catch (WriterException e) {
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error while generating the QR Code.");
+            return;
+        }
+
+        ByteArrayOutputStream pngOut = new ByteArrayOutputStream();
+        MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOut);
+        byte[] pngData = pngOut.toByteArray();
 
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType("image/png");
-        resp.getOutputStream().write(qrcode.stream().toByteArray());
+        resp.getOutputStream().write(pngData);
     }
 }

@@ -97,8 +97,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.kenglxn.qrgen</groupId>
+            <groupId>com.google.zxing</groupId>
             <artifactId>javase</artifactId>
+            <version>${version.google.zxing}</version>
         </dependency>
 
         <dependency>
