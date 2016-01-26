@@ -35,7 +35,7 @@
     <parent>
         <groupId>org.keycloak.secretstore</groupId>
         <artifactId>secret-store-parent</artifactId>
-        <version>1.0.9.Final-SNAPSHOT</version>
+        <version>1.0.9.Final</version>
     </parent>
 
     <name>Secret Store - API</name>
@@ -50,7 +50,7 @@
         <dependency>
             <groupId>org.keycloak.secretstore</groupId>
             <artifactId>secret-store-common</artifactId>
-            <version>1.0.9.Final-SNAPSHOT</version>
+            <version>1.0.9.Final</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
