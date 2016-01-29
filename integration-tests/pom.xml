@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.keycloak.secretstore</groupId>
         <artifactId>secret-store-parent</artifactId>
-        <version>1.0.11.Final-SNAPSHOT</version>
+        <version>1.0.11.Final</version>
     </parent>
 
     <name>Secret Store - Integration tests</name>
@@ -43,7 +43,7 @@
             <dependency>
                 <groupId>org.keycloak.secretstore</groupId>
                 <artifactId>secret-store-feature-pack</artifactId>
-                <version>1.0.11.Final-SNAPSHOT</version>
+                <version>1.0.11.Final</version>
                 <type>pom</type>
                 <scope>provided</scope>
             </dependency>
@@ -51,7 +51,7 @@
             <dependency>
                 <groupId>org.keycloak.secretstore</groupId>
                 <artifactId>secret-store-feature-pack</artifactId>
-                <version>1.0.11.Final-SNAPSHOT</version>
+                <version>1.0.11.Final</version>
                 <type>zip</type>
                 <exclusions>
                     <exclusion>
