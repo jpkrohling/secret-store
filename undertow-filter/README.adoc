@@ -14,9 +14,7 @@ continues. The Keycloak Wildfly Adapter sees a bearer token instead of a key/sec
 == Basic usage
 
 Just include this module as a dependency to your WAR project and add the context parameter
-`org.keycloak.secretstore.enabled` with a value of `true` to your `web.xml`. Additionally, the filter needs to have
-access to the Keycloak Adapter Configuration for your application, so, the "ServletContextEnhancer" needs also to be
-added to your web.xml. In summary, this needs to be added to your `web.xml`:
+`org.keycloak.secretstore.enabled` with a value of `true` to your `web.xml`:
 
 [source,xml]
 ----
@@ -24,10 +22,6 @@ added to your web.xml. In summary, this needs to be added to your `web.xml`:
         <param-name>org.keycloak.secretstore.enabled</param-name>
         <param-value>true</param-value>
     </context-param>
-
-    <listener>
-        <listener-class>org.keycloak.secretstore.common.ServletContextEnhancer</listener-class>
-    </listener>
 ----
 
 If everything is correctly set, the following log entry can be found:

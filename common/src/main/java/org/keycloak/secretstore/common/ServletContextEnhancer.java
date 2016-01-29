@@ -19,10 +19,12 @@ package org.keycloak.secretstore.common;
 import javax.inject.Inject;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
 /**
  * @author Juraci Paixão Kröhling
  */
+@WebListener
 public class ServletContextEnhancer implements ServletContextListener {
     @Inject
     ApplicationResources applicationResources;

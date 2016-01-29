@@ -23,10 +23,6 @@
          version="3.0">
     <display-name>Secret Store</display-name>
 
-    <listener>
-        <listener-class>org.keycloak.secretstore.common.ServletContextEnhancer</listener-class>
-    </listener>
-
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>REST endpoints</web-resource-name>
