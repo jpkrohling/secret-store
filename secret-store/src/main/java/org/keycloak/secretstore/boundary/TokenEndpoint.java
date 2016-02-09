@@ -21,6 +21,7 @@ import java.net.URISyntaxException;
 import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
@@ -49,7 +50,7 @@ import org.keycloak.secretstore.api.TokenService;
 import org.keycloak.secretstore.common.UsernamePasswordConverter;
 import org.keycloak.secretstore.common.ZonedDateTimeAdapter;
 import org.keycloak.secretstore.entity.TokenCreateUpdateRequest;
-import org.keycloak.secretstore.entity.TokenCreateUpdateResponse;
+import org.keycloak.secretstore.entity.TokenResponse;
 import org.keycloak.secretstore.entity.TokenErrorResponse;
 
 /**
@@ -88,7 +89,11 @@ public class TokenEndpoint {
     public Response listMyTokens() {
         String principal = sessionContext.getCallerPrincipal().getName();
         List<Token> tokens = tokenService.getByPrincipalForDistribution(principal);
-        return Response.ok(tokens).build();
+        List<TokenResponse> response = tokens
+                .stream()
+                .map(TokenResponse::new)
+                .collect(Collectors.toList());
+        return Response.ok(response).build();
     }
 
     @DELETE
@@ -185,7 +190,7 @@ public class TokenEndpoint {
                     .entity(new TokenErrorResponse("Token not found for principal."))
                     .build();
         }
-        return Response.ok(new TokenCreateUpdateResponse(update(token, request))).build();
+        return Response.ok(new TokenResponse(update(token, request))).build();
     }
 
     private Response doCreateFromBasicAuth(TokenCreateUpdateRequest createRequest) throws Exception {
@@ -214,7 +219,7 @@ public class TokenEndpoint {
         String refreshToken = usernamePasswordConverter.getOfflineToken(username, password);
         Token token = create(refreshToken);
         token = update(token, createRequest);
-        return Response.ok(new TokenCreateUpdateResponse(token)).build();
+        return Response.ok(new TokenResponse(token)).build();
     }
 
     private Token create(String refreshToken) {

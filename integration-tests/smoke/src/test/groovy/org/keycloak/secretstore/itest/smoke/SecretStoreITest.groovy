@@ -35,6 +35,9 @@ class SecretStoreITest extends BaseSmokeTest {
         assertEquals(200, response.status)
         assertNotNull(response.data.key)
         assertNotNull(response.data.secret)
+        assertNotNull(response.data.principal)
+        assertNotNull(response.data.createdAt)
+        assertNotNull(response.data.updatedAt)
     }
 
     @Test

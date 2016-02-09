@@ -27,25 +27,23 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @author Juraci Paixão Kröhling
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TokenCreateUpdateResponse {
+public class TokenResponse {
     private String key;
     private String secret;
+    private String principal;
+    private ZonedDateTime createdAt;
+    private ZonedDateTime updatedAt;
     private ZonedDateTime expiresAt;
     private Map<String, String> attributes;
 
-    public TokenCreateUpdateResponse(Token token) {
+    public TokenResponse(Token token) {
         this.key = token.getId().toString();
         this.secret = token.getSecret();
+        this.principal = token.getPrincipal();
         this.attributes = token.getAttributes();
+        this.createdAt = token.getCreatedAt();
+        this.updatedAt = token.getUpdatedAt();
         this.expiresAt = token.getExpiresAt();
-    }
-
-    public TokenCreateUpdateResponse(String key, String secret, ZonedDateTime expiresAt,
-                                     Map<String, String> attributes) {
-        this.key = key;
-        this.secret = secret;
-        this.expiresAt = expiresAt;
-        this.attributes = attributes;
     }
 
     public String getKey() {
@@ -62,6 +60,30 @@ public class TokenCreateUpdateResponse {
 
     public void setSecret(String secret) {
         this.secret = secret;
+    }
+
+    public String getPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(String principal) {
+        this.principal = principal;
+    }
+
+    public ZonedDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(ZonedDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public ZonedDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(ZonedDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public ZonedDateTime getExpiresAt() {
