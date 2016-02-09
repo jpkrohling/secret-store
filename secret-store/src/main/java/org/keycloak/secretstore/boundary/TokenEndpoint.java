@@ -16,15 +16,11 @@
  */
 package org.keycloak.secretstore.boundary;
 
-import org.keycloak.KeycloakPrincipal;
-import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
-import org.keycloak.secretstore.api.Token;
-import org.keycloak.secretstore.api.TokenService;
-import org.keycloak.secretstore.common.UsernamePasswordConverter;
-import org.keycloak.secretstore.common.ZonedDateTimeAdapter;
-import org.keycloak.secretstore.entity.TokenCreateResponse;
-import org.keycloak.secretstore.entity.TokenErrorResponse;
-import org.keycloak.secretstore.entity.rest.TokenUpdateRequest;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Base64;
+import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
@@ -33,16 +29,28 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Base64;
-import java.util.List;
-import java.util.UUID;
+
+import org.keycloak.KeycloakPrincipal;
+import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
+import org.keycloak.secretstore.api.Token;
+import org.keycloak.secretstore.api.TokenService;
+import org.keycloak.secretstore.common.UsernamePasswordConverter;
+import org.keycloak.secretstore.common.ZonedDateTimeAdapter;
+import org.keycloak.secretstore.entity.TokenCreateUpdateRequest;
+import org.keycloak.secretstore.entity.TokenCreateUpdateResponse;
+import org.keycloak.secretstore.entity.TokenErrorResponse;
 
 /**
  * @author Juraci Paixão Kröhling
@@ -143,13 +151,44 @@ public class TokenEndpoint {
     }
 
     /**
-     * This endpoint is called when a client makes a REST call with basic auth.
+     * This endpoint is called when a client makes a REST call with basic auth as APPLICATION_FORM_URLENCODED, without
+     * parameters.
      *
      * @return a response with a TokenCreateResponse as entity
      */
     @POST
     @Path("create")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response createFromBasicAuth() throws Exception {
+        return doCreateFromBasicAuth(null);
+    }
+
+    /**
+     * This endpoint is called when a client makes a REST call with basic auth as application/json, with
+     * extra parameters as JSON
+     *
+     * @return a response with a TokenCreateResponse as entity
+     */
+    @POST
+    @Path("create")
+    public Response createFromBasicAuth(TokenCreateUpdateRequest createRequest) throws Exception {
+        return doCreateFromBasicAuth(createRequest);
+    }
+
+    @PUT
+    @Path("{tokenId}")
+    public Response update(@PathParam("tokenId") String tokenId, TokenCreateUpdateRequest request) {
+        Token token = tokenService.getByIdForTrustedConsumers(UUID.fromString(tokenId));
+        if (!token.getPrincipal().equals(sessionContext.getCallerPrincipal().getName())) {
+            return Response
+                    .status(Response.Status.NOT_FOUND)
+                    .entity(new TokenErrorResponse("Token not found for principal."))
+                    .build();
+        }
+        return Response.ok(new TokenCreateUpdateResponse(update(token, request))).build();
+    }
+
+    private Response doCreateFromBasicAuth(TokenCreateUpdateRequest createRequest) throws Exception {
         String userAuthorizationHeader = request.getHeader("Authorization");
         String[] authorizationHeaderParts = userAuthorizationHeader.trim().split("\\s+");
         if (authorizationHeaderParts.length != 2) {
@@ -174,7 +213,8 @@ public class TokenEndpoint {
 
         String refreshToken = usernamePasswordConverter.getOfflineToken(username, password);
         Token token = create(refreshToken);
-        return Response.ok(new TokenCreateResponse(token)).build();
+        token = update(token, createRequest);
+        return Response.ok(new TokenCreateUpdateResponse(token)).build();
     }
 
     private Token create(String refreshToken) {
@@ -199,16 +239,10 @@ public class TokenEndpoint {
         return tokenService.create(token);
     }
 
-    @PUT
-    @Path("{tokenId}")
-    public Response update(@PathParam("tokenId") String tokenId, TokenUpdateRequest request) {
-        Token token = tokenService.getByIdForTrustedConsumers(UUID.fromString(tokenId));
-
-        if (!token.getPrincipal().equals(sessionContext.getCallerPrincipal().getName())) {
-            return Response
-                    .status(Response.Status.NOT_FOUND)
-                    .entity(new TokenErrorResponse("Token not found for principal."))
-                    .build();
+    private Token update(Token token, TokenCreateUpdateRequest request) {
+        if (null == request) {
+            // nothing to update
+            return token;
         }
 
         boolean changed = false;
@@ -225,7 +259,6 @@ public class TokenEndpoint {
         if (changed) {
             token = tokenService.update(token);
         }
-
-        return Response.ok(token).build();
+        return token;
     }
 }

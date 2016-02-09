@@ -18,7 +18,7 @@
  * @author Juraci Paixão Kröhling
  */
 @XmlJavaTypeAdapters({@XmlJavaTypeAdapter(type=ZonedDateTime.class,value=ZonedDateTimeXmlAdapter.class)})
-package org.keycloak.secretstore.entity.rest;
+package org.keycloak.secretstore.entity;
 
 import org.keycloak.secretstore.api.internal.ZonedDateTimeXmlAdapter;
 

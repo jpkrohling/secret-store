@@ -14,17 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.keycloak.secretstore.entity.rest;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+package org.keycloak.secretstore.entity;
 
 import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * @author Juraci Paixão Kröhling
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TokenUpdateRequest {
+public class TokenCreateUpdateRequest {
     private Map<String, String> attributes;
     private String expiresAt;
 

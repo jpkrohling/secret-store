@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Red Hat, Inc. and/or its affiliates
+ * Copyright 2016 Red Hat, Inc. and/or its affiliates
  * and other contributors as indicated by the @author tags.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,23 +16,36 @@
  */
 package org.keycloak.secretstore.entity;
 
+import java.time.ZonedDateTime;
+import java.util.Map;
+
 import org.keycloak.secretstore.api.Token;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * @author Juraci Paixão Kröhling
  */
-public class TokenCreateResponse {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class TokenCreateUpdateResponse {
     private String key;
     private String secret;
+    private ZonedDateTime expiresAt;
+    private Map<String, String> attributes;
 
-    public TokenCreateResponse(Token token) {
+    public TokenCreateUpdateResponse(Token token) {
         this.key = token.getId().toString();
         this.secret = token.getSecret();
+        this.attributes = token.getAttributes();
+        this.expiresAt = token.getExpiresAt();
     }
 
-    public TokenCreateResponse(String key, String secret) {
+    public TokenCreateUpdateResponse(String key, String secret, ZonedDateTime expiresAt,
+                                     Map<String, String> attributes) {
         this.key = key;
         this.secret = secret;
+        this.expiresAt = expiresAt;
+        this.attributes = attributes;
     }
 
     public String getKey() {
@@ -49,5 +62,21 @@ public class TokenCreateResponse {
 
     public void setSecret(String secret) {
         this.secret = secret;
+    }
+
+    public ZonedDateTime getExpiresAt() {
+        return expiresAt;
+    }
+
+    public void setExpiresAt(ZonedDateTime expiresAt) {
+        this.expiresAt = expiresAt;
+    }
+
+    public Map<String, String> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, String> attributes) {
+        this.attributes = attributes;
     }
 }
