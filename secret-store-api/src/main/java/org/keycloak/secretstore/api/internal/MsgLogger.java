@@ -83,4 +83,7 @@ public interface MsgLogger {
     @Message(id = 160013, value = "Token %s replaced by bearer token %s.")
     void tokenReplaced(String tokenId, String bearer);
 
+    @LogMessage(level = Logger.Level.DEBUG)
+    @Message(id = 160014, value = "Key and/or secret not provided: %s")
+    void authorizationValueInvalid(String authorizationPart);
 }

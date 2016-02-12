@@ -94,6 +94,13 @@ public class RequestRewriter {
 
         String authorization = new String(Base64.getDecoder().decode(authorizationHeaderParts[1]));
         String[] parts = authorization.split(":");
+
+        if (parts.length != 2) {
+            logger.authorizationValueInvalid(authorization);
+            // we don't return a 403 from here, as there might be something down the line that might accept this
+            return httpServerExchange;
+        }
+
         String keyAsString = parts[0];
         String secret = parts[1];
 
