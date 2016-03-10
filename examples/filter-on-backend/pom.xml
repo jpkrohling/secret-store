@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.keycloak.secretstore</groupId>
         <artifactId>secret-store-examples</artifactId>
-        <version>1.0.14.Final-SNAPSHOT</version>
+        <version>1.0.14.Final</version>
     </parent>
 
     <name>Secret Store - Examples - Filter on Backend</name>
@@ -38,12 +38,12 @@
         <dependency>
             <groupId>org.keycloak.secretstore</groupId>
             <artifactId>secret-store-examples-backend</artifactId>
-            <version>1.0.14.Final-SNAPSHOT</version>
+            <version>1.0.14.Final</version>
         </dependency>
         <dependency>
             <groupId>org.keycloak.secretstore</groupId>
             <artifactId>secret-store-undertow-filter</artifactId>
-            <version>1.0.14.Final-SNAPSHOT</version>
+            <version>1.0.14.Final</version>
         </dependency>
 
         <!--
