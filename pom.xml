@@ -123,7 +123,7 @@
         <version.org.codehaus.groovy.modules.http-builder>0.7</version.org.codehaus.groovy.modules.http-builder>
         <version.org.codehaus.gmavenplus.gmavenplus-plugin>1.2</version.org.codehaus.gmavenplus.gmavenplus-plugin>
         <version.org.jboss.spec.javax.json>1.0.0.Final</version.org.jboss.spec.javax.json>
-        <version.org.keycloak>1.8.1.Final</version.org.keycloak>
+        <version.org.keycloak>1.9.1.Final</version.org.keycloak>
         <version.org.mockito>1.10.19</version.org.mockito>
         <version.org.wildfly>10.0.0.CR4</version.org.wildfly>
         <version.org.wildfly.build>1.1.1.Final</version.org.wildfly.build>
