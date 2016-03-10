@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.keycloak.secretstore</groupId>
         <artifactId>secret-store-examples</artifactId>
-        <version>1.0.14.Final</version>
+        <version>1.0.15.Final-SNAPSHOT</version>
     </parent>
 
     <name>Secret Store - Examples - Client Behind Proxy</name>
@@ -38,7 +38,7 @@
         <dependency>
             <groupId>org.keycloak.secretstore</groupId>
             <artifactId>secret-store-examples-backend</artifactId>
-            <version>1.0.14.Final</version>
+            <version>1.0.15.Final-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>
