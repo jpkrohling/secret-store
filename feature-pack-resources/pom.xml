@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.keycloak.secretstore</groupId>
         <artifactId>secret-store-parent</artifactId>
-        <version>1.0.15.Final</version>
+        <version>1.0.16.Final-SNAPSHOT</version>
     </parent>
 
     <artifactId>secret-store-feature-pack-resources</artifactId>
